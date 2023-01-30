@@ -6,7 +6,7 @@ Indentation
 Quarto/Pandoc/R Markdown extension to typeset first-line indents
 in HTML and LaTeX/PDF output. 
 
-[CI badge]: https://img.shields.io/github/workflow/status/dialoa/indentation/CI?logo=github
+[CI badge]: https://img.shields.io/github/workflow/status/dialoa/indentation/ci.yaml?branch=main
 [CI workflow]: https://github.com/dialoa/indentation/actions/workflows/ci.yaml
 
 Overview
