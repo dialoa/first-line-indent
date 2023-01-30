@@ -14,9 +14,10 @@ end
 
 local formats_by_extension = {
   md = 'markdown',
-  html = 'html',
+  latex = 'latex',
   native = 'haskell',
   tex = 'latex',
+  html = 'html',
 }
 
 local function sample_blocks (sample_file)
