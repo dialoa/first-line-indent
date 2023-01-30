@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Julien Dutant" />
+  <meta name="dcterms.date" content="2022-12-22" />
+  <title>First line indent</title>
+  <style>
+    html {
+      line-height: 1.5;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 1em;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      font-size: 85%;
+      margin: 0;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <style>
+          p {
+            text-indent: 2em;
+            margin-top: 0;
+            margin-bottom: 0;
+          }
+          :is(h1, h2, h3, h4, h5, h6) + p {
+            text-indent: 0;
+          }
+          li > p, li > div > p, li > div > div > p {
+            text-indent: 0;
+            margin-bottom: 1rem;
+          }
+                div.no-first-line-indent-after + p {
+            text-indent: 0;
+          }
+          div.first-line-indent-after + p {
+            text-indent: 2em;
+          }      
+        </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">First line indent</h1>
+<p class="author">Julien Dutant</p>
+<p class="date">22 Dec 2022</p>
+</header>
+<div class="no-first-line-indent-after"></div>
+<p>This document tests the “first-line indent” mode. In ‘English-style
+typography’, paragraphs just below a section heading aren’t indented,
+because a heading is enough to separate them from what is before. The
+same should apply to the first paragraph of a document with a title—so
+this paragraph is not indented.</p>
+<p>This paragraph is indented. But after this quote:</p>
+<blockquote>
+<div class="no-first-line-indent-after"></div>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+</blockquote>
+<div class="no-first-line-indent-after"></div>
+<p>the paragraph continues, so there should not be a first-line
+indent.</p>
+<p>We want this quote to end a paragraph:</p>
+<blockquote>
+<div class="no-first-line-indent-after"></div>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+</blockquote>
+<div class="no-first-line-indent-after"></div>
+<p>The text below therefore begins a new paragraph and should have a
+first-line indent. We have to manually specify using
+<code>\indent</code>.</p>
+<h1 id="basic-tests">Basic tests</h1>
+<p>After a heading (in English typographic style) the paragraph does not
+have a first-line indent.</p>
+<h2 id="manually-specifying-indentation-on-certain-paragraphs">Manually
+specifying indentation on certain paragraphs</h2>
+<p>In the couple couple of paragraphs that follow the quotes below, we
+have manually specified <code>\noindent</code> and <code>\indent</code>
+respectively. This is to check that the filter doesn’t add its own
+commands to those.</p>
+<blockquote>
+<div class="no-first-line-indent-after"></div>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+</blockquote>
+<div class="no-first-line-indent-after"></div>
+<p>Here we’ve explicitly required a first line indent.</p>
+<p>Here we’ve explicitly required <em>not</em> to have one.</p>
+<h2 id="automatic-removal-of-first-line-indentation">Automatic removal
+of first line indentation</h2>
+<p>We can also check that indent is removed after lists:</p>
+<ul>
+<li>A bullet</li>
+<li>list</li>
+</ul>
+<div class="no-first-line-indent-after"></div>
+<p>And after code blocks:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode lua"><code class="sourceCode lua"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> variable <span class="op">=</span> <span class="st">&quot;value&quot;</span></span></code></pre></div>
+<div class="no-first-line-indent-after"></div>
+<p>Or horizontal rules.</p>
+<hr />
+<div class="no-first-line-indent-after"></div>
+<p>We can check that default behaviour is overridden for elements of
+custom classes. We preserve indentation after certain code blocks:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode markdown keepit"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>This code block should be followed by an indented paragraph,</span></code></pre></div>
+<p>And we remove it after certain Divs:</p>
+<div class="chuckit">
+<p>This paragraph’s Div container should not be followed by
+indentation,</p>
+</div>
+<div class="no-first-line-indent-after"></div>
+<p>as specified in the options.</p>
+<h1 id="further-tests">Further tests</h1>
+<p>In this document we added a few custom filter options.</p>
+<h2 id="size">Size</h2>
+<p>The size of first-line indents is 2em instead of the default 1.5em
+(Pandoc) or 1em (Quarto).</p>
+<h2 id="keep-or-remove-indentation-after-certain-types-of-elements">Keep
+or remove indentation after certain types of elements</h2>
+<p>We also added an option to automatically remove indent after
+tables:</p>
+<table>
+<caption>Demonstration of simple table syntax.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Right</th>
+<th style="text-align: left;">Left</th>
+<th style="text-align: center;">Center</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">12</td>
+<td style="text-align: left;">12</td>
+<td style="text-align: center;">12</td>
+<td>12</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">123</td>
+<td style="text-align: left;">123</td>
+<td style="text-align: center;">123</td>
+<td>123</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: center;">1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<div class="no-first-line-indent-after"></div>
+<p>So this paragraph’s first line is not indented. We added the option
+<em>not</em> to remove ident after ordered lists and definition
+lists:</p>
+<dl>
+<dt>Definition</dt>
+<dd>
+This is a definition block.
+</dd>
+</dl>
+<p>So this paragraph is indented.</p>
+<ol type="1">
+<li>An ordered</li>
+<li>list</li>
+</ol>
+<p>And this one is too.</p>
+<h2 id="recursion-and-nesting">Recursion and nesting</h2>
+<p>The paragraphs below are nested within a Div element— actually, two
+nested Divs, in order to check that the filter is applied recursively
+within Divs.</p>
+<div id="div">
+<div id="subdiv">
+<p>The first paragraph within a Div is indented normally, but the list
+below</p>
+<ul>
+<li>list item</li>
+<li>list item</li>
+</ul>
+<div class="no-first-line-indent-after"></div>
+<p>should not be followed by a indented paragraph.</p>
+<p>The last paragraph within Divs should be indented normally.</p>
+</div>
+</div>
+<p>The filter is also applied recursively within blockquotes. A
+blockquote’s first paragraph shouldn’t be indented, but any subsequent
+ones should. Within the block quotes, indents should be removed after
+special blocks, as in the main text.</p>
+<blockquote>
+<div class="no-first-line-indent-after"></div>
+<p>The first paragraph of this blockquote does not have a first line
+indent.</p>
+<p>The subsequent paragraph has one. It’s followed:</p>
+<ul>
+<li>by a</li>
+<li>list</li>
+</ul>
+<div class="no-first-line-indent-after"></div>
+<p>after which there is no first line indentation.</p>
+<p>This next paragraph is first line indented again..</p>
+</blockquote>
+<h2 id="list-content">List content</h2>
+<p>Within lists, paragraphs should be separated by vertical
+whitespace.</p>
+<ul>
+<li><p>This list item contains multiple paragraphs.</p>
+<p>The second one should not be indented, but separated by vertical
+whitespace.</p></li>
+</ul>
+</body>
+</html>
