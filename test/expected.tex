@@ -5,16 +5,19 @@
 \documentclass[
 ]{article}
 \usepackage{amsmath,amssymb}
-\usepackage{lmodern}
 \usepackage{iftex}
 \ifPDFTeX
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
   \usepackage{textcomp} % provide euro and other symbols
 \else % if luatex or xetex
-  \usepackage{unicode-math}
+  \usepackage{unicode-math} % this also loads fontspec
   \defaultfontfeatures{Scale=MatchLowercase}
   \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
 \fi
 % Use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
@@ -90,7 +93,7 @@
 \fi
 \IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
-\urlstyle{same} % disable monospaced font for URLs
+\urlstyle{same}
 \hypersetup{
   pdftitle={First line indent},
   pdfauthor={Julien Dutant},
@@ -170,7 +173,7 @@ We can also check that indent is removed after lists:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{local}\NormalTok{ variable }\OperatorTok{=} \StringTok{"value"}
+\KeywordTok{local} \VariableTok{variable} \OperatorTok{=} \StringTok{"value"}
 \end{Highlighting}
 \end{Shaded}
 
@@ -212,18 +215,19 @@ We also added an option to automatically remove indent after tables:
 
 \begin{longtable}[]{@{}rlcl@{}}
 \caption{Demonstration of simple table syntax.}\tabularnewline
-\toprule()
+\toprule\noalign{}
 Right & Left & Center & Default \\
-\midrule()
+\midrule\noalign{}
 \endfirsthead
-\toprule()
+\toprule\noalign{}
 Right & Left & Center & Default \\
-\midrule()
+\midrule\noalign{}
 \endhead
+\bottomrule\noalign{}
+\endlastfoot
 12 & 12 & 12 & 12 \\
 123 & 123 & 123 & 123 \\
 1 & 1 & 1 & 1 \\
-\bottomrule()
 \end{longtable}
 
 \noindent So this paragraph's first line is not indented. We added the
