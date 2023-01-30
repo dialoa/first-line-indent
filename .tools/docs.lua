@@ -3,15 +3,18 @@ local utils = require 'pandoc.utils'
 local stringify = utils.stringify
 
 local function read_file (filename)
+  local content = ''
   local fh = io.open(filename)
-  local content = fh:read('*a')
-  fh:close()
+  if fh then 
+    content = fh:read('*a')
+    fh:close()
+  end
   return content
 end
 
 local formats_by_extension = {
   md = 'markdown',
-  latex = 'latex',
+  html = 'html',
   native = 'haskell',
   tex = 'latex',
 }
@@ -29,18 +32,44 @@ local function sample_blocks (sample_file)
   }
 end
 
-local function result_blocks (result_file)
+local function result_block_raw(result_file, format)
   local result_content = read_file(result_file)
+
+  return pandoc.CodeBlock(result_content,
+    pandoc.Attr('', {format, 'sample'})
+  )
+end
+
+local function result_block_html(filename)
+  local html = '<iframe width=100% height=720px '
+    ..'src="'..filename..'" sandbox>\n'
+    ..'<p><a href="'..filename..'">Click to see file</a></p>\n'
+    ..'</iframe>'
+  return pandoc.RawBlock('html', html)
+end
+
+local function result_blocks(result_file)
   local extension = select(2, path.split_extension(result_file)):sub(2)
   local format = formats_by_extension[extension] or extension
   local filename = path.filename(result_file)
+  local result = pandoc.List:new({
+    pandoc.Header(3,
+      pandoc.Link(pandoc.Str(filename), filename), 
+        {filename}
+      )
+  })
 
-  local result_attr = pandoc.Attr('', {format, 'sample'})
-  return {
-    pandoc.Header(3, pandoc.Str(filename), {filename}),
-    pandoc.CodeBlock(result_content, result_attr)
-  }
+  if format == 'html' then
+    result:insert(result_block_html(filename))
+  else
+    result:insert(result_block_raw(result_file, format))
+  end
+  
+  return result
 end
+
+
+
 
 local function code_blocks (code_file)
   local code_content = read_file(code_file)

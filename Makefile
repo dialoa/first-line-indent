@@ -2,6 +2,10 @@
 FILTER_FILE := $(wildcard *.lua)
 # Name of the filter, *without* `.lua` file extension
 FILTER_NAME = $(patsubst %.lua,%,$(FILTER_FILE))
+# Format (as Pandoc option) and extension
+# for the sample output in the website
+WEBSITE_OUTPUT_FORMAT = html
+WEBSITE_OUTPUT_EXT = html
 
 # Allow to use a different pandoc binary, e.g. when testing.
 PANDOC ?= pandoc
@@ -46,16 +50,29 @@ help:
 # (i.e., the filter file).
 # let `test` be a PHONY target so that it is run each time it's called.
 .PHONY: test
-test: $(FILTER_FILE) test/input.md test/test.yaml
-	$(PANDOC) --defaults test/test.yaml | \
-		$(DIFF) test/expected.native -
+test: test_html test_latex
 
+test_html: $(FILTER_FILE) test/input.md test/test.yaml
+	$(PANDOC) --defaults test/test.yaml -t html \
+		| $(DIFF) test/expected.html -
+
+test_latex: $(FILTER_FILE) test/input.md test/test.yaml
+	$(PANDOC) --defaults test/test.yaml -t latex \
+		| $(DIFF) test/expected.tex -
 
 ## Re-generate the expected output
 # This file **must not** be a dependency of the `test` target, as that
 # would cause it to be regenerated on each run, making the test
 # pointless.
-test/expected.native: $(FILTER_FILE) test/input.md test/test.yaml
+regenerate: test/expected.html test/expected.tex test/expected.pdf
+
+test/expected.html: $(FILTER_FILE) test/input.md test/test.yaml
+	$(PANDOC) --defaults test/test.yaml --output=$@
+
+test/expected.tex: $(FILTER_FILE) test/input.md test/test.yaml
+	$(PANDOC) --defaults test/test.yaml --output=$@
+
+test/expected.pdf: $(FILTER_FILE) test/input.md test/test.yaml
 	$(PANDOC) --defaults test/test.yaml --output=$@
 
 #
@@ -67,14 +84,14 @@ test/expected.native: $(FILTER_FILE) test/input.md test/test.yaml
 website: _site/index.html _site/$(FILTER_FILE)
 
 _site/index.html: README.md test/input.md $(FILTER_FILE) .tools/docs.lua \
-		_site/output.md _site/style.css
+		_site/output.$(WEBSITE_OUTPUT_EXT) _site/style.css
 	@mkdir -p _site
 	$(PANDOC) \
 	    --standalone \
 	    --lua-filter=.tools/docs.lua \
-	    --metadata=sample-file:test/input.md \
-	    --metadata=result-file:_site/output.md \
-	    --metadata=code-file:$(FILTER_FILE) \
+		--metadata sample-file=test/input.md \
+		--metadata result-file=_site/output.$(WEBSITE_OUTPUT_EXT) \
+		--metadata code-file=$(FILTER_FILE) \
 	    --css=style.css \
 	    --toc \
 	    --output=$@ $<
@@ -85,11 +102,11 @@ _site/style.css:
 	    --output $@ \
 	    'https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/light.css'
 
-_site/output.md: $(FILTER_FILE) test/input.md test/test.yaml
+_site/output.$(WEBSITE_OUTPUT_EXT): $(FILTER_FILE) test/input.md test/test.yaml
 	@mkdir -p _site
 	$(PANDOC) \
 	    --defaults=test/test.yaml \
-	    --to=markdown \
+	    --to=$(WEBSITE_OUTPUT_EXT) \
 	    --output=$@
 
 _site/$(FILTER_FILE): $(FILTER_FILE)
@@ -144,8 +161,9 @@ release: quarto-extension
 ## Update filter name
 .PHONY: update-name
 update-name:
-	sed -i'' -e 's/greetings/$(FILTER_NAME)/g' README.md
-	sed -i'' -e 's/greetings/$(FILTER_NAME)/g' test/test.yaml
+	sed -i'.bak' -e 's/greetings/$(FILTER_NAME)/g' README.md
+	sed -i'.bak' -e 's/greetings/$(FILTER_NAME)/g' test/test.yaml
+	rm README.md.bak test/test.yaml.bak
 
 ## Set everything up (must be used only once)
 .PHONY: setup
@@ -153,14 +171,14 @@ setup: update-name
 	git mv greetings.lua $(REPO_NAME).lua
 	@# Crude method to updates the examples and links; removes the
 	@# template instructions from the README.
-	sed -i'' \
+	sed -i'.bak' \
 	    -e 's/greetings/$(REPO_NAME)/g' \
 	    -e 's#tarleb/lua-filter-template#$(REPO_PATH)#g' \
       -e '/^\* \*/,/^\* \*/d' \
 	    README.md
-	sed -i'' -e 's/greetings/$(REPO_NAME)/g' test/test.yaml
-	sed -i'' -e 's/Albert Krewinkel/$(USER_NAME)/' LICENSE
-
+	sed -i'.bak' -e 's/greetings/$(REPO_NAME)/g' test/test.yaml
+	sed -i'.bak' -e 's/Albert Krewinkel/$(USER_NAME)/' LICENSE
+	rm README.md.bak test/test.yaml.bak LICENSE.bak
 #
 # Helpers
 #

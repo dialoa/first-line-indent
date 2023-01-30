@@ -1,179 +1,66 @@
-Greetings, a Lua Filter Template
-==================================================================
+Indentation
+===========
 
 [![GitHub build status][CI badge]][CI workflow]
 
-Greetings is a friendly Lua filter that adds a welcoming message
-to the document.
+Quarto/Pandoc/R Markdown extension to typeset first-line indents
+in HTML and LaTeX/PDF output. 
 
-[CI badge]: https://img.shields.io/github/workflow/status/tarleb/lua-filter-template/CI?logo=github
-[CI workflow]: https://github.com/tarleb/lua-filter-template/actions/workflows/ci.yaml
+[CI badge]: https://img.shields.io/github/workflow/status/dialoa/indentation/CI?logo=github
+[CI workflow]: https://github.com/dialoa/indentation/actions/workflows/ci.yaml
 
-* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+Overview
+--------
 
-This repository serves as a template intended to make publishing
-of pandoc [Lua filters][] easy and convenient. Just click "use
-this template" and then make modifications in your new repository.
-See also the GitHub documentation on [creating a repository from a
-template][from template].
+Quarto/Pandoc's support of first-line indentation is limited:
+it's not available in HTML output and delegated to LaTeX PDF
+output. This filter provides a first-line indentation 
+style with smart defaults, full customization,
+and manual control for fine-grain adjustments.
 
-[Lua filters]: https://pandoc.org/lua-filters.html
-[from template]: https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template
-
-Template Usage
-------------------------------------------------------------------
-
-This section describes how to use the template.
-
-### Checklist
-
-A few things should be updated in the repository after cloning
-this template. You can use the checklist below to ensure that you
-get the most out of it. We recommend that you perform at least the
-first two steps, everything else is up to you.
-
-0. [ ] **Use template**: Create a new repo from
-   this template. Use the name that you want to give your filter
-   as a repository name. E.g., a repository for filter
-   `greetings.lua` should be named `greetings`.
-1. [ ] **Clone your new repository**: Run `git clone` to fetch
-   your new repository.
-2. [ ] **Setup the filter**: the easiest way to setup the
-   repository is to run
-
-   ``` bash
-   make setup
-   ```
-
-   This will update the README, remove the template-specific
-   documentation, and rename the filter; the repository name is
-   used to determine the new filter name.
-
-3. [ ] **Update the README**: Describe your filter, so people
-   will know what to expect. You may also want to update the URLs
-   in the links above to match your repository.
-
-4. [ ] (optional) **Setup Quarto extension**: This step is
-   recommended if you want to make it easy for [Quarto][] users to
-   install and use your filter: Quarto expects the filter to be
-   placed in the `_extensions` folder, packed together with a YAML
-   file containing relevant metadata. Run
-
-   ``` bash
-   make quarto-extension
-   ```
-
-   to generate the necessary files and directories. You should
-   commit the generated files to source control. See also the
-   [`quarto-extension` documentation](quarto-extension) below.
-
-5. [ ] (optional) **Tag a release**: The easiest way to create a
-   new release is to run `make release VERSION=0.0.1`. This will
-   update the Quarto extension, commit the changes, then tag the
-   resulting commit with the given VERSION. This step is
-   recommended if the filter is distributed as a Quarto extension.
-
-### Development
-
-The repository comes with a `Makefile` intended to make developing
-a filter a pleasant experience. You may want to adjust some of the
-targets while keeping the general structure.
-
-Use the Makefile with `make ...`, where `...` denotes one of the
-targets listed in this section.
-
-#### `test`
-
-Tests the filter. This target runs your filter on file
-`test/input.md` and compares the result with
-`test/expected.native`. The latter file is also a valid make
-target; invoke it to regenerate the expected output.
-
-You may want to modify this target if your filter is intended for
-a specific output format. E.g., if the filter only works for HTML
-output, you may choose to replace `test/expected.native` with
-`test/expected.html`, and to compare that file instead.
-
-The test configs are kept in file `test/test.yaml`. The file is
-generated on demand, but you may want to check it into source
-control and modify it as needed.
-
-#### `quarto-extension`
-
-This target sets the repository up to be used as a [Quarto][]
-extension. The target will create the directory structure expected
-by quarto. It will also generate a `_extension.yml` metadata file.
-Invoking this target will move the main `.lua` file below the
-`_extensions` directory; the the original file will be replaced
-with a symlink.
-
-[Quarto]: https://quarto.org
-
-#### `release`
-
-Creates a new release for the given version. The version must be
-passed as a variable:
-
-``` bash
-make release VERSION=1.0.0
-```
-
-The `release` target depends on `quarto-extension`.
-
-#### `update-name`
-
-Run this target after renaming the filter file. It will update the
-name in all other files.
-
-#### `website`
-
-Generates a website for this filter. The website will contain the
-contents of this README, an example generated from the test input,
-as well as the full filter code. The page components are combined
-with the `.tools/docs.lua` filter.
-
-### Website
-
-The repository template comes with a GitHub Action to publish a
-website via GitHub pages. It expects the new "GitHub Actions"
-source to be used for Pages.
-
-Remove the file `.github/workflows/website.lua` to disable this
-feature.
-
-* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-
-Usage
-------------------------------------------------------------------
-
-The filter modifies the internal document representation; it can
-be used with many publishing systems that are based on pandoc.
-
-### Plain pandoc
-
-Pass the filter to pandoc via the `--lua-filter` (or `-L`) command
-line option.
-
-    pandoc --lua-filter greetings.lua ...
+Installation
+------------
 
 ### Quarto
 
-Users of Quarto can install this filter as an extension with
+Install this filter in a document's folder by running:
 
-    quarto install extension tarleb/greetings
+```bash
+quarto install extension dialoa/indentation
+```
 
-and use it by adding `greetings` to the `filters` entry
-in their YAML header.
+on the command line (terminal in RStudio).
+
+Use it by adding `indentation` to the `filters` entry
+of your YAML header.
 
 ``` yaml
 ---
 filters:
-  - greetings
+  - indentation
 ---
 ```
 
+### Pandoc
+
+Copy the file `indentation.lua` in your document folder. Pass 
+the filter to Pandoc via the `--lua-filter` (or `-L`) command
+line option.
+
+``` bash
+pandoc --lua-filter indentation.lua ...
+```
+
+Or specify it in a defaults file (see 
+[Pandoc's manual: defaults](https://pandoc.org/MANUAL.html#option--defaults)).
+
+You can place the filter file Pandoc's user data dir, 
+or in an arbitrary folder (`-L path/to/indentation.lua`).
+See [Pandoc's manual:Lua filters](https://pandoc.org/MANUAL.html#option--lua-filter). 
+
 ### R Markdown
 
+Copy the file `indentation.lua` in your document folder. 
 Use `pandoc_args` to invoke the filter. See the [R Markdown
 Cookbook](https://bookdown.org/yihui/rmarkdown-cookbook/lua-filters.html)
 for details.
@@ -182,12 +69,343 @@ for details.
 ---
 output:
   word_document:
-    pandoc_args: ['--lua-filter=greetings.lua']
+    pandoc_args: ['--lua-filter=indentation.lua']
 ---
 ```
+
+You can place the folder in another folder, provided you 
+specify its path, e.g.:
+
+``` yaml
+---
+output:
+  word_document:
+    pandoc_args: ['--lua-filter=../path/to/indentation.lua']
+---
+```
+
+Basic usage
+-----------
+
+See also the [sample input file](test/input.md) and
+the resulting [HTML output](test/expected.html).
+
+### Applying first-line indent to a whole document
+
+To apply first-line indentation to your entire document,
+set `indent` to `true` in the YAML header:
+
+```yaml
+---
+indent: true
+---
+```
+
+In Quarto, `indent` may also be set per format:
+
+```yaml
+---
+format:
+  html:
+    indent: false
+  pdf:
+    indent: true
+---
+```
+
+The filter applies some typesetting adjustments, e.g.
+no first-line indentation after lists. See [typesetting-background]
+below for details. If you're not happy with the
+adjustments, you can control them via options and
+manually apply or remove indents from some paragraphs.
+
+### Manually add or remove first-line indent on a paragraph
+
+Whether or not first-line indentation is activated for the whole
+document, you can manually add or remove it from a particular
+paragraph by inserting `\indent` or `\noindent` at the beginning
+of the paragraph:
+
+```markdown
+> This is a blockquote
+
+\indent This paragraph will have an indent even though it follows a
+blockquote.
+```
+
+Even though `\indent` and `\noindent` are LaTeX commands, the filter
+handles them in HTML output too.
+
+__Warning: citations after `\indent`__. If the paragraph starts
+with a square-bracketed citation, `\indent` or `\noindent` must
+be marked as a "Raw Inline", as follows:
+
+```
+`\indent`{=tex} [@Smith2008] says....
+```
+
+That is because Pandoc/Quarto interprets `\indent [@cite]` as a
+LaTeX command with a bracketed option rather than a LaTeX command
+followed by a citation. 
+
+Advanced usage
+--------------
+
+### Typesetting background
+
+Paragraphs can be separated in two ways: by vertical
+whitespace (common on the web) or by indenting their first
+line (common in books). For the latter conventions vary across
+typographic traditions: some (*e.g.* French) indent the first-line of
+every paragraph while others (*e.g.* English) don't indent paragraphs
+after section headings and indented material such as blockquotes
+or lists. 
+
+First-line indentation is commonly 1\ em, going from 0.5\ em in narrow
+line width to 3\ em in wide line widths. LaTeX defaults, used by
+Pandoc and Quarto in PDF output, are 1.5\ em in the article and 
+memoir classes, 1\ em in the KOMA classes.
+
+Default Quarto and Pandoc output uses vertical whitespace to separate
+paragraphs. In HTML output this cannot be changed. In PDF output, 
+the first-line indent style can be used by setting the metadata 
+variable `indent` to `true`. This has some limitations, however:
+
+* English style indentation is applied, whichever language the 
+  `lang` variable specifies. French, for isntance, indents paragraphs
+  even after section headings.
+* Every line following a blockquote, list, code block or other block 
+  element is treated as a new paragraph, hence indented. This is typically,
+  though not always, unwanted, as the text following a blockquote or list
+  is usually a continuation of the same paragraph.
+* The first line under a title or chapter title is indented. This LaTeX
+  default isn't good typography: the first paragraph doesn't need a
+  separation. 
+
+This filter provides first-line indentation in HTML output and 
+improves its handling in both PDF and HTML outputs. 
+
+1) First-line indentation is used to separate paragraphs, 
+   unless `indent` is set to `false`. 
+2) It generates HTML outputs with first-line indent style. That
+  is done by appending CSS code in the document's metadata
+  `header-includes` field. This can be disabled if you want to 
+  provide your own CSS.
+1) You can keep or remove the indent of specific paragraphs manually,
+   by adding `\indent` and `\noindent` at the beginning of the paragraph
+   in the markdown source. These are LaTeX commands but will work with
+   HTML output too.
+2) First-line indentation is not applied certain block elements: by default,
+   not after lists, block quotes, code blocks and horizontal rules. You can
+   specify which through the filter's options. This can be overridden on a 
+   per-paragraph basis by inserting `\indent` at the beginning of the paragraph. 
+3) The width of first-line indentations can be customized.
+
+### Filter options
+
+Filter options are specified in the document's YAML header:
+
+```yaml
+indent: true
+first-line-indent:
+  size: 2em
+  auto-remove: true
+  set-metadata-variable: true
+  set-header-includes: true
+  remove-after:
+    - BlockQuote
+    - BulletList
+    - CodeBlock
+    - DefinitionList
+    - HorizontalRule
+    - OrderedList
+  dont-remove-after: Table
+  remove-after-class: 
+    - statement
+  dont-remove-after-class: 
+```
+
+Different options can be provided for different output formats.
+Format-specific options override global ones. For instance,
+to disable first line indentation in HTML output only:
+
+```yaml
+# Format-specific options
+format:
+  html:
+    indent: false
+    first-line-indent:
+      set-header-includes: false
+# Global options
+indent: true
+first-line-indent:
+  size: 2em
+```
+
+With Pandoc, options can also be provided in a [default
+file](https://pandoc.org/MANUAL.html#option--defaults), 
+placed within the `metadata` key:
+
+```yaml
+metadata:
+  indent: true
+  first-line-indent:
+    size: 
+    auto-remove: true
+    ...
+```
+
+### Options reference
+
+* `indent` (default `true`): if set to `false`, paragraphs are separated with vertical
+  whitespace rather than first line indentation. This essentially deactivates
+  the filter, though `\indent` can still be used to add indent to individual 
+  paragraphs for HTML output as well as PDF.
+* `size` (default `nil`): string specificing size of the first-line indent. 
+  Must be in a format suitable for all desired outputs. `1.5em`, `2ex`, `.5pc`, `10pt`,
+  `25mm`, `2.5cm`, `0.3in`, all work in LaTeX and HTML. `25px` only works
+  in HTML. LaTeX commands (`\textheight`) are not supported.
+* `auto-remove` (default `true`): boolean, whether the filter automatically 
+  removes first line indentation from paragraphs that follow blocks of 
+  given types, unless they start with `\indent`. Set to `false` to disable. 
+  Use the `remove-after...` and `dont-remove-after...` options below to control
+  which block types and Div classes are handled that way. 
+  By default first line indentation is removed after Blockquote, lists (DefinitionList, 
+  BulletList, OrderedList, which include numbered example lists) and HorizontalRule blocks.
+* `set-metadata-variable` (default: `true`): boolean, whether the filter 
+  add the metavariable `indent` with the value `true` when it is missing. This
+  is needed for Pandoc's LaTeX template to active first line indentation in 
+  PDF output. 
+* `set-header-includes` (default `true`): whether the filter should add formatting code
+  to the document's `header-includes` metadata field. Set it to `false` if
+  you use a custom template instead.
+* `remove-after`, `dont-remove-after`: decide whether to remove 
+  first-line-indent automatically after blocks of a certain type. 
+  These options can be a single string or a list of strings. 
+  The strings are case-sensitive and should correspond to [block types 
+  in Lua filters](https://pandoc.org/lua-filters.html#type-block): 
+  BlockQuote, BulletList, CodeBlock, DefinitionList, Div, Header, HorizontalRule, LineBlock, Null, OrderedList, Para, Plain, RawBlock, Table.
+  Inactive is `auto-remove` is false.
+* `remove-after-class`, `dont-remove-after-class`: decide whether to remove 
+  first-line-indent automatically after elements of certain classes. For
+  instance, you can decide that elements with class "endsparagraph" should
+  not be followed by first-line-indent. Useful for Div elements, if you use
+  Divs of certain classes to typeset material that doesn't end a paragraph.
+  Inactive is `auto-remove` is false.
+
+To illustrate, suppose you don't want to filter to remove
+first-line indent after definition lists. You can add the following
+lines in the document's metadata block (if the source is markdown):
+
+```yaml
+first-line-indent:
+  dont-remove-after: DefinitionList
+```
+
+### Styling HTML output
+
+In LaTeX output the filters adds `\noindent` commands at beginning of
+paragraphs that shouldn't be indented. These can be controlled in
+LaTeX as usual.
+
+In HTML output paragraphs that are explicitly marked to have no first-line
+indent are preceded by an empty `div` with class `no-first-line-indent-after`
+and those that are explictly marked (with `\indent` in the markdown
+source) to have a first-line indent are preceded by an empty `div` with class
+`first-line-indent-after`, as follows:
+
+```html
+<ul>
+  <li>A bullet</li>
+  <li>list</li>
+</ul>
+<div class="no-first-line-indent-after"></div>
+<p>This paragraph should not have first-line indent.</p>
+...
+<div class="first-line-indent-after"></div>
+<p>This paragraph should have first-line indent.</p>
+```
+
+These can be styled in CSS as follows:
+
+```css
+p {
+  text-indent: 1.5em;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+:is(h1, h2, h3, h4, h5, h6) + p {
+  text-indent: 0;
+}
+li > p, li > div > p, li > div > div > p {
+  text-indent: 0;
+  margin-bottom: 1rem;
+}
+div.no-first-line-indent-after + p {
+  text-indent: 0;
+}
+div.first-line-indent-after + p {
+  text-indent: SIZE;
+}      
+```
+
+The first three rules provide global first line indentation.
+
+* The `p` rule adds a first line indents to every paragraph and 
+removes the default vertical space between paragraphs. 
+* The `is(h1, h2, h3, h4, h5, h6) + p` rule removes first-line indentation from
+every paragraph that follows a heading. 
+* The `li > p` rule restores the vertical whitespace separation style within lists.
+  It only targets paragraphs that are direct child of a list (`li > p`) rather
+  that all paragraphs within a list (`li p`) in case a list item contains e.g. a 
+  block quote that requires first line indentation. However in case a list item's
+  paragraphs are contained within some Div, we also target paragraphs that are 
+  child of a Div, or sub-Div, of a list item (`li > div > p` and `li > div > div >p`).
+
+The last two rules provide explicit local indentation. The
+`div.no-first-line-indent-after) + p` rule removes indent from paragraphs 
+placed just after a Div with the `no-first-line-indent-after` class,
+and the second rule keeps them in paragraphs that follow a
+`first-line-indent-after` Div.
+
+### Block quotations and the LaTeX `quote` environment
+
+The filter applies first line indent style within block quotes,
+with no indent on the first line.
+
+To achieve this in PDF output, the LaTeX `quote` 
+environment (used by Quarto/Pandoc for block quotes)
+is redefined as follows in `header-includes`:
+
+``` latex
+\renewenvironment{quote}
+     {\list{}{\listparindent 1.5em%
+              \itemindent \listparindent
+              \rightmargin \leftmargin
+              \parsep \z@ \@plus \p@}%
+            \item\relax}
+      {\endlist}
+```
+
+Which is the definition of LaTeX's `quotation` environment---see
+the [standard classes source](https://ctan.org/pkg/classes).
+
+If you redefine the `quote` environment, you should use this code
+as basis. 
+
+### Overriding the filter's `header-includes`
+
+The filter adds its commands at the *beginning* of the `header-includes`
+field. You can thus use `header-includes` to override the filter's
+commands. 
+
+Contributing
+------------
+
+PRs welcome. 
 
 License
 ------------------------------------------------------------------
 
-This pandoc Lua filter is published under the MIT license, see
-file `LICENSE` for details.
+Copyright 2021-2023 Julien Dutant. 
+License MIT - see license file for details.
