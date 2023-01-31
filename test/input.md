@@ -74,21 +74,24 @@ Or horizontal rules.
 
 ---
 
-We can check that default behaviour is overridden for elements of
-custom classes. We preserve indentation after certain code blocks:
+We check that this behavour is overriden for specified classes. We
+created a custom class to preserve indentation after certain elements:
 
 ``` {.markdown .keepit}
-This code block should be followed by an indented paragraph,
+This code block 
+should be followed 
+by an indented 
+paragraph
 ```
 
-And we remove it after certain Divs:
+And another one to remove indents after others:
 
 ::: chuckit
 This paragraph's Div container should not
 be followed by indentation,
 :::
 
-as specified in the options. 
+as specified in this document's options. 
 
 # Further tests
 
