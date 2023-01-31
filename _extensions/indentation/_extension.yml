@@ -1,6 +1,6 @@
 name: indentation
 author: Julien Dutant
-version: 0.9.0
+version: 0.9.1
 contributes:
   filters:
     - indentation.lua
