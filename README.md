@@ -12,11 +12,10 @@ in HTML and LaTeX/PDF output.
 Overview
 --------
 
-Quarto/Pandoc's support of first-line indentation is limited:
-it's not available in HTML output and delegated to LaTeX PDF
-output. This filter provides a first-line indentation 
-style with smart defaults, full customization,
-and manual control for fine-grain adjustments.
+Quarto/Pandoc's support of first-line indentation is limited: it's not
+available in HTML output and delegated to LaTeX PDF output. This
+filter provides a first-line indentation style with smart defaults,
+full customization, and manual control for fine-grain adjustments.
 
 Installation
 ------------
@@ -51,19 +50,23 @@ line option.
 pandoc --lua-filter indentation.lua ...
 ```
 
-Or specify it in a defaults file (see 
-[Pandoc's manual: defaults](https://pandoc.org/MANUAL.html#option--defaults)).
+Or specify it in a defaults file (see [Pandoc's manual:
+defaults][PDMan-defs]).
 
-You can place the filter file Pandoc's user data dir, 
-or in an arbitrary folder (`-L path/to/indentation.lua`).
-See [Pandoc's manual:Lua filters](https://pandoc.org/MANUAL.html#option--lua-filter). 
+You can place the filter file Pandoc's user data dir, or in an
+arbitrary folder (`-L path/to/indentation.lua`). See [Pandoc's
+manual:Lua filters][PDMan-filters]. 
+
+[PDMan-defs]: https://pandoc.org/MANUAL.html#option--defaults
+[PDMan-filters]: https://pandoc.org/MANUAL.html#option--lua-filter
 
 ### R Markdown
 
-Copy the file `indentation.lua` in your document folder. 
-Use `pandoc_args` to invoke the filter. See the [R Markdown
-Cookbook](https://bookdown.org/yihui/rmarkdown-cookbook/lua-filters.html)
-for details.
+Copy the file `indentation.lua` in your document folder. Use
+`pandoc_args` to invoke the filter. See the [R Markdown
+Cookbook][RMd-book] for details.
+
+[RMd-book]: https://bookdown.org/yihui/rmarkdown-cookbook/lua-filters.html
 
 ``` yaml
 ---
@@ -73,8 +76,8 @@ output:
 ---
 ```
 
-You can place the folder in another folder, provided you 
-specify its path, e.g.:
+You can place the folder in another folder, provided you specify its
+path, e.g.:
 
 ``` yaml
 ---
@@ -87,13 +90,13 @@ output:
 Basic usage
 -----------
 
-See also the [sample input file](test/input.md) and
-the resulting [HTML output](test/expected.html).
+See also the [sample input file](test/input.md) and the resulting
+[HTML output](test/expected.html).
 
 ### Applying first-line indent to a whole document
 
-To apply first-line indentation to your entire document,
-set `indent` to `true` in the YAML header:
+To apply first-line indentation to your entire document, set `indent`
+to `true` in the YAML header:
 
 ```yaml
 ---
@@ -113,18 +116,18 @@ format:
 ---
 ```
 
-The filter applies some typesetting adjustments, e.g.
-no first-line indentation after lists. See [typesetting-background]
-below for details. If you're not happy with the
-adjustments, you can control them via options and
-manually apply or remove indents from some paragraphs.
+The filter applies some typesetting adjustments, e.g. no first-line
+indentation after lists. See [typesetting-background] below for
+details. If you're not happy with the adjustments, you can control
+them via options and manually apply or remove indents from some
+paragraphs.
 
 ### Manually add or remove first-line indent on a paragraph
 
 Whether or not first-line indentation is activated for the whole
 document, you can manually add or remove it from a particular
-paragraph by inserting `\indent` or `\noindent` at the beginning
-of the paragraph:
+paragraph by inserting `\indent` or `\noindent` at the beginning of
+the paragraph:
 
 ```markdown
 > This is a blockquote
@@ -153,52 +156,52 @@ Advanced usage
 
 ### Typesetting background
 
-Paragraphs can be separated in two ways: by vertical
-whitespace (common on the web) or by indenting their first
-line (common in books). For the latter conventions vary across
-typographic traditions: some (*e.g.* French) indent the first-line of
-every paragraph while others (*e.g.* English) don't indent paragraphs
-after section headings and indented material such as blockquotes
-or lists. 
+Paragraphs can be separated in two ways: by vertical whitespace
+(common on the web) or by indenting their first line (common in
+books). For the latter conventions vary across typographic traditions:
+some (*e.g.* French) indent the first-line of every paragraph while
+others (*e.g.* English) don't indent paragraphs after section headings
+and indented material such as blockquotes or lists. 
 
 First-line indentation is commonly 1\ em, going from 0.5\ em in narrow
 line width to 3\ em in wide line widths. LaTeX defaults, used by
-Pandoc and Quarto in PDF output, are 1.5\ em in the article and 
-memoir classes, 1\ em in the KOMA classes.
+Pandoc and Quarto in PDF output, are 1.5\ em in the article and memoir
+classes, 1\ em in the KOMA classes.
 
 Default Quarto and Pandoc output uses vertical whitespace to separate
-paragraphs. In HTML output this cannot be changed. In PDF output, 
-the first-line indent style can be used by setting the metadata 
-variable `indent` to `true`. This has some limitations, however:
+paragraphs. In HTML output this cannot be changed. In PDF output, the
+first-line indent style can be used by setting the metadata variable
+`indent` to `true`. This has some limitations, however:
 
-* English style indentation is applied, whichever language the 
-  `lang` variable specifies. French, for isntance, indents paragraphs
-  even after section headings.
-* Every line following a blockquote, list, code block or other block 
-  element is treated as a new paragraph, hence indented. This is typically,
-  though not always, unwanted, as the text following a blockquote or list
-  is usually a continuation of the same paragraph.
-* The first line under a title or chapter title is indented. This LaTeX
-  default isn't good typography: the first paragraph doesn't need a
-  separation. 
+* English style indentation is applied, whichever language the `lang`
+  variable specifies. French, for isntance, indents paragraphs even
+  after section headings.
+* Every line following a blockquote, list, code block or other block
+  element is treated as a new paragraph, hence indented. This is
+  typically, though not always, unwanted, as the text following a
+  blockquote or list is usually a continuation of the same paragraph.
+* The first line under a title or chapter title is indented. This
+  LaTeX default isn't good typography: the first paragraph doesn't
+  need a separation. 
 
 This filter provides first-line indentation in HTML output and 
 improves its handling in both PDF and HTML outputs. 
 
-1) First-line indentation is used to separate paragraphs, 
-   unless `indent` is set to `false`. 
-2) It generates HTML outputs with first-line indent style. That
-  is done by appending CSS code in the document's metadata
-  `header-includes` field. This can be disabled if you want to 
-  provide your own CSS.
+1) First-line indentation is used to separate paragraphs, unless
+   `indent` is set to `false`. 
+2) It generates HTML outputs with first-line indent style. That is
+  done by appending CSS code in the document's metadata
+  `header-includes` field. This can be disabled if you want to provide
+  your own CSS.
 1) You can keep or remove the indent of specific paragraphs manually,
-   by adding `\indent` and `\noindent` at the beginning of the paragraph
-   in the markdown source. These are LaTeX commands but will work with
-   HTML output too.
-2) First-line indentation is not applied certain block elements: by default,
-   not after lists, block quotes, code blocks and horizontal rules. You can
-   specify which through the filter's options. This can be overridden on a 
-   per-paragraph basis by inserting `\indent` at the beginning of the paragraph. 
+   by adding `\indent` and `\noindent` at the beginning of the
+   paragraph in the markdown source. These are LaTeX commands but will
+   work with HTML output too.
+2) First-line indentation is not applied certain block elements: by
+   default, not after lists, block quotes, code blocks and horizontal
+   rules. You can specify which through the filter's options. This can
+   be overridden on a per-paragraph basis by inserting `\indent` at
+   the beginning of the paragraph. 
 3) The width of first-line indentations can be customized.
 
 ### Filter options
@@ -226,8 +229,8 @@ first-line-indent:
 ```
 
 Different options can be provided for different output formats.
-Format-specific options override global ones. For instance,
-to disable first line indentation in HTML output only:
+Format-specific options override global ones. For instance, to disable
+first line indentation in HTML output only:
 
 ```yaml
 # Format-specific options
@@ -243,8 +246,8 @@ first-line-indent:
 ```
 
 With Pandoc, options can also be provided in a [default
-file](https://pandoc.org/MANUAL.html#option--defaults), 
-placed within the `metadata` key:
+file](https://pandoc.org/MANUAL.html#option--defaults), placed within
+the `metadata` key:
 
 ```yaml
 metadata:
@@ -257,45 +260,51 @@ metadata:
 
 ### Options reference
 
-* `indent` (default `true`): if set to `false`, paragraphs are separated with vertical
-  whitespace rather than first line indentation. This essentially deactivates
-  the filter, though `\indent` can still be used to add indent to individual 
-  paragraphs for HTML output as well as PDF.
-* `size` (default `nil`): string specificing size of the first-line indent. 
-  Must be in a format suitable for all desired outputs. `1.5em`, `2ex`, `.5pc`, `10pt`,
-  `25mm`, `2.5cm`, `0.3in`, all work in LaTeX and HTML. `25px` only works
-  in HTML. LaTeX commands (`\textheight`) are not supported.
-* `auto-remove` (default `true`): boolean, whether the filter automatically 
-  removes first line indentation from paragraphs that follow blocks of 
-  given types, unless they start with `\indent`. Set to `false` to disable. 
-  Use the `remove-after...` and `dont-remove-after...` options below to control
-  which block types and Div classes are handled that way. 
-  By default first line indentation is removed after Blockquote, lists (DefinitionList, 
-  BulletList, OrderedList, which include numbered example lists) and HorizontalRule blocks.
-* `set-metadata-variable` (default: `true`): boolean, whether the filter 
-  add the metavariable `indent` with the value `true` when it is missing. This
-  is needed for Pandoc's LaTeX template to active first line indentation in 
-  PDF output. 
-* `set-header-includes` (default `true`): whether the filter should add formatting code
-  to the document's `header-includes` metadata field. Set it to `false` if
-  you use a custom template instead.
-* `remove-after`, `dont-remove-after`: decide whether to remove 
-  first-line-indent automatically after blocks of a certain type. 
-  These options can be a single string or a list of strings. 
-  The strings are case-sensitive and should correspond to [block types 
-  in Lua filters](https://pandoc.org/lua-filters.html#type-block): 
-  BlockQuote, BulletList, CodeBlock, DefinitionList, Div, Header, HorizontalRule, LineBlock, Null, OrderedList, Para, Plain, RawBlock, Table.
-  Inactive is `auto-remove` is false.
-* `remove-after-class`, `dont-remove-after-class`: decide whether to remove 
-  first-line-indent automatically after elements of certain classes. For
-  instance, you can decide that elements with class "endsparagraph" should
-  not be followed by first-line-indent. Useful for Div elements, if you use
-  Divs of certain classes to typeset material that doesn't end a paragraph.
-  Inactive is `auto-remove` is false.
+* `indent` (default `true`): if set to `false`, paragraphs are
+  separated with vertical whitespace rather than first line
+  indentation. This essentially deactivates the filter, though
+  `\indent` can still be used to add indent to individual paragraphs
+  for HTML output as well as PDF.
+* `size` (default `nil`): string specificing size of the first-line
+  indent. Must be in a format suitable for all desired outputs.
+  `1.5em`, `2ex`, `.5pc`, `10pt`, `25mm`, `2.5cm`, `0.3in`, all work
+  in LaTeX and HTML. `25px` only works in HTML. LaTeX commands
+  (`\textheight`) are not supported.
+* `auto-remove` (default `true`): boolean, whether the filter
+  automatically removes first line indentation from paragraphs that
+  follow blocks of given types, unless they start with `\indent`. Set
+  to `false` to disable. Use the `remove-after...` and
+  `dont-remove-after...` options below to control which block types
+  and Div classes are handled that way. By default first-line
+  indentation is removed after Blockquote, lists (DefinitionList,
+  BulletList, OrderedList, which include numbered example lists) and
+  HorizontalRule blocks.
+* `set-metadata-variable` (default: `true`): boolean, whether the
+  filter add the metavariable `indent` with the value `true` when it
+  is missing. This is needed for Pandoc's LaTeX template to active
+  first line indentation in PDF output. 
+* `set-header-includes` (default `true`): whether the filter should
+  add formatting code to the document's `header-includes` metadata
+  field. Set it to `false` if you use a custom template instead.
+* `remove-after`, `dont-remove-after`: decide whether to remove
+  first-line-indent automatically after blocks of a certain type.
+  These options can be a single string or a list of strings. The
+  strings are case-sensitive and should correspond to [block types in
+  Lua filters](https://pandoc.org/lua-filters.html#type-block):
+  BlockQuote, BulletList, CodeBlock, DefinitionList, Div, Header,
+  HorizontalRule, LineBlock, Null, OrderedList, Para, Plain, RawBlock,
+  Table. Inactive is `auto-remove` is false.
+* `remove-after-class`, `dont-remove-after-class`: decide whether to
+  remove first-line-indent automatically after elements of certain
+  classes. For instance, you can decide that elements with class
+  "endsparagraph" should not be followed by first-line-indent. Useful
+  for Div elements, if you use Divs of certain classes to typeset
+  material that doesn't end a paragraph. Inactive is `auto-remove` is
+  false.
 
-To illustrate, suppose you don't want to filter to remove
-first-line indent after definition lists. You can add the following
-lines in the document's metadata block (if the source is markdown):
+To illustrate, suppose you don't want to filter to remove first-line
+indent after definition lists. You can add the following lines in the
+document's metadata block (if the source is markdown):
 
 ```yaml
 first-line-indent:
@@ -308,11 +317,12 @@ In LaTeX output the filters adds `\noindent` commands at beginning of
 paragraphs that shouldn't be indented. These can be controlled in
 LaTeX as usual.
 
-In HTML output paragraphs that are explicitly marked to have no first-line
-indent are preceded by an empty `div` with class `no-first-line-indent-after`
-and those that are explictly marked (with `\indent` in the markdown
-source) to have a first-line indent are preceded by an empty `div` with class
-`first-line-indent-after`, as follows:
+In HTML output paragraphs that are explicitly marked to have no
+first-line indent are preceded by an empty `div` with class
+`no-first-line-indent-after` and those that are explictly marked (with
+`\indent` in the markdown source) to have a first-line indent are
+preceded by an empty `div` with class `first-line-indent-after`, as
+follows:
 
 ```html
 <ul>
@@ -331,8 +341,11 @@ These can be styled in CSS as follows:
 ```css
 p {
   text-indent: 1.5em;
-  margin-top: 0;
-  margin-bottom: 0;
+  margin: 0;
+}
+header p {
+  text-indent: 0;
+  margin: 1em 0;
 }
 :is(h1, h2, h3, h4, h5, h6) + p {
   text-indent: 0;
@@ -349,33 +362,37 @@ div.first-line-indent-after + p {
 }      
 ```
 
-The first three rules provide global first line indentation.
+The first four rules provide global first line indentation.
 
-* The `p` rule adds a first line indents to every paragraph and 
-removes the default vertical space between paragraphs. 
-* The `is(h1, h2, h3, h4, h5, h6) + p` rule removes first-line indentation from
-every paragraph that follows a heading. 
-* The `li > p` rule restores the vertical whitespace separation style within lists.
-  It only targets paragraphs that are direct child of a list (`li > p`) rather
-  that all paragraphs within a list (`li p`) in case a list item contains e.g. a 
-  block quote that requires first line indentation. However in case a list item's
-  paragraphs are contained within some Div, we also target paragraphs that are 
-  child of a Div, or sub-Div, of a list item (`li > div > p` and `li > div > div >p`).
+* The `p` rule adds first-line indentation to every paragraph and
+  removes the default vertical space between paragraphs. 
+* The `header p` rule restores the default whitespace separation
+  setting for paragraphs in the `<header>` element.
+* The `is(h1, h2, h3, h4, h5, h6) + p` rule removes first-line
+  indentation from every paragraph that follows a heading. 
+* The `li > p` rule restores the vertical whitespace separation style
+  within lists. It only targets paragraphs that are direct child of a
+  list (`li > p`) rather that all paragraphs within a list (`li p`) in
+  case a list item contains e.g. a block quote that requires first
+  line indentation. However in case a list item's paragraphs are
+  contained within some Div, we also target paragraphs that are child
+  of a Div, or sub-Div, of a list item (`li > div > p` and `li > div >
+  div >p`).
 
 The last two rules provide explicit local indentation. The
-`div.no-first-line-indent-after) + p` rule removes indent from paragraphs 
-placed just after a Div with the `no-first-line-indent-after` class,
-and the second rule keeps them in paragraphs that follow a
-`first-line-indent-after` Div.
+`div.no-first-line-indent-after) + p` rule removes indent from
+paragraphs placed just after a Div with the
+`no-first-line-indent-after` class, and the second rule keeps them in
+paragraphs that follow a `first-line-indent-after` Div.
 
 ### Block quotations and the LaTeX `quote` environment
 
-The filter applies first line indent style within block quotes,
-with no indent on the first line.
+The filter applies first line indent style within block quotes, with
+no indent on the first line.
 
-To achieve this in PDF output, the LaTeX `quote` 
-environment (used by Quarto/Pandoc for block quotes)
-is redefined as follows in `header-includes`:
+To achieve this in PDF output, the LaTeX `quote` environment (used by
+Quarto/Pandoc for block quotes) is redefined as follows in
+`header-includes`:
 
 ``` latex
 \renewenvironment{quote}
@@ -387,17 +404,17 @@ is redefined as follows in `header-includes`:
       {\endlist}
 ```
 
-Which is the definition of LaTeX's `quotation` environment---see
-the [standard classes source](https://ctan.org/pkg/classes).
+Which is the definition of LaTeX's `quotation` environment---see the
+[standard classes source](https://ctan.org/pkg/classes).
 
-If you redefine the `quote` environment, you should use this code
-as basis. 
+If you redefine the `quote` environment, you should use this code as
+basis. 
 
 ### Overriding the filter's `header-includes`
 
-The filter adds its commands at the *beginning* of the `header-includes`
-field. You can thus use `header-includes` to override the filter's
-commands. 
+The filter adds its commands at the *beginning* of the
+`header-includes` field. You can thus use `header-includes` to
+override the filter's commands. 
 
 Contributing
 ------------

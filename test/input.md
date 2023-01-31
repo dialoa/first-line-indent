@@ -21,10 +21,11 @@ first-line-indent:
   dont-remove-after-class: keepit
 ---
 
-This document tests the "first-line indent" mode. In 'English-style 
-typography', paragraphs just below a section heading aren't indented,
-because a heading is enough to separate them from what is before. 
-The same should apply to the first paragraph of a document with a title---so this paragraph is not indented.
+This document illustrates first-line indent typesetting. In English
+typography, paragraphs just below a section heading aren't indented,
+because a heading is enough to separate them from what is before. The
+same should apply to the first paragraph of a document with a
+title---so this paragraph is not indented.
 
 This paragraph is indented. But after this quote:
 
@@ -36,16 +37,19 @@ We want this quote to end a paragraph:
 
 > Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-\indent The text below therefore begins a new paragraph 
-and should have a first-line indent. We have to manually specify using `\indent`. 
+\indent The text below therefore begins a new paragraph and should
+have a first-line indent. We have to manually specify using `\indent`. 
 
 # Basic tests
 
-After a heading (in English typographic style) the paragraph does not have a first-line indent.
+After a heading (in English typographic style) the paragraph does not
+have a first-line indent.
 
 ## Manually specifying indentation on certain paragraphs
 
-In the couple couple of paragraphs that follow the quotes below, we have manually specified `\noindent` and `\indent` respectively. This is to check that the filter doesn't add its own commands to those.
+In the couple couple of paragraphs that follow the quotes below, we
+have manually specified `\noindent` and `\indent` respectively. This
+is to check that the filter doesn't add its own commands to those.
 
 > Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
@@ -70,8 +74,8 @@ Or horizontal rules.
 
 ---
 
-We can check that default behaviour is overridden for elements
-of custom classes. We preserve indentation after certain code blocks:
+We can check that default behaviour is overridden for elements of
+custom classes. We preserve indentation after certain code blocks:
 
 ``` {.markdown .keepit}
 This code block should be followed by an indented paragraph,
@@ -123,9 +127,9 @@ And this one is too.
 
 ## Recursion and nesting
 
-The paragraphs below are nested within a Div element---
-actually, two nested Divs, in order to check that the
-filter is applied recursively within Divs.
+The paragraphs below are nested within a Div element---actually, two
+nested Divs, in order to check that the filter is applied recursively
+within Divs.
 
 ::: {#div}
 
@@ -145,11 +149,10 @@ The last paragraph within Divs should be indented normally.
 
 :::
 
-The filter is also applied recursively within blockquotes. 
-A blockquote's first paragraph shouldn't be indented, but
-any subsequent ones should. Within the block quotes, 
-indents should be removed after special blocks, as in
-the main text. 
+The filter is also applied recursively within blockquotes. A
+blockquote's first paragraph shouldn't be indented, but any subsequent
+ones should. Within the block quotes, indents should be removed after
+special blocks, as in the main text. 
 
 > The first paragraph of this blockquote does not
 > have a first line indent.

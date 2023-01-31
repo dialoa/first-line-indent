@@ -65,12 +65,9 @@ local function result_blocks(result_file)
   else
     result:insert(result_block_raw(result_file, format))
   end
-  
+
   return result
 end
-
-
-
 
 local function code_blocks (code_file)
   local code_content = read_file(code_file)

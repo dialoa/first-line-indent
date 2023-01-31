@@ -229,8 +229,11 @@
   <style>
           p {
             text-indent: 2em;
-            margin-top: 0;
-            margin-bottom: 0;
+            margin: 0;
+          }
+          header p {
+            text-indent: 0;
+            margin: 1em 0;          
           }
           :is(h1, h2, h3, h4, h5, h6) + p {
             text-indent: 0;
@@ -257,8 +260,8 @@
 <p class="date">22 Dec 2022</p>
 </header>
 <div class="no-first-line-indent-after"></div>
-<p>This document tests the “first-line indent” mode. In ‘English-style
-typography’, paragraphs just below a section heading aren’t indented,
+<p>This document illustrates first-line indent typesetting. In English
+typography, paragraphs just below a section heading aren’t indented,
 because a heading is enough to separate them from what is before. The
 same should apply to the first paragraph of a document with a title—so
 this paragraph is not indented.</p>
@@ -378,7 +381,7 @@ This is a definition block.
 </ol>
 <p>And this one is too.</p>
 <h2 id="recursion-and-nesting">Recursion and nesting</h2>
-<p>The paragraphs below are nested within a Div element— actually, two
+<p>The paragraphs below are nested within a Div element—actually, two
 nested Divs, in order to check that the filter is applied recursively
 within Divs.</p>
 <div id="div">

@@ -116,8 +116,11 @@ HeaderIncludes = {
       local code = [[
         p {
           text-indent: SIZE;
-          margin-top: 0;
-          margin-bottom: 0;
+          margin: 0;
+        }
+        header p {
+          text-indent: 0;
+          margin: 1em 0;          
         }
         :is(h1, h2, h3, h4, h5, h6) + p {
           text-indent: 0;
