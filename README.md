@@ -260,46 +260,65 @@ metadata:
 
 ### Options reference
 
-* `indent` (default `true`): if set to `false`, paragraphs are
-  separated with vertical whitespace rather than first line
-  indentation. This essentially deactivates the filter, though
-  `\indent` can still be used to add indent to individual paragraphs
-  for HTML output as well as PDF.
-* `size` (default `nil`): string specificing size of the first-line
-  indent. Must be in a format suitable for all desired outputs.
-  `1.5em`, `2ex`, `.5pc`, `10pt`, `25mm`, `2.5cm`, `0.3in`, all work
-  in LaTeX and HTML. `25px` only works in HTML. LaTeX commands
-  (`\textheight`) are not supported.
-* `auto-remove` (default `true`): boolean, whether the filter
-  automatically removes first line indentation from paragraphs that
-  follow blocks of given types, unless they start with `\indent`. Set
-  to `false` to disable. Use the `remove-after...` and
+`indent` (default `true`)
+
+: If set to `false`, paragraphs are separated with vertical whitespace
+  rather than first line indentation. This essentially deactivates the
+  filter, though `\indent` can still be used to add indent to
+  individual paragraphs for HTML output as well as PDF.
+
+`size` (default `nil`)
+
+: String specificing size of the first-line indent. Must be in a
+  format suitable for all desired outputs. `1.5em`, `2ex`, `.5pc`,
+  `10pt`, `25mm`, `2.5cm`, `0.3in`, all work in LaTeX and HTML. `25px`
+  only works in HTML. LaTeX commands (`\textheight`) are not
+  supported.
+
+`auto-remove` (default `true`)
+
+: Whether the filter automatically removes first line indentation from
+  paragraphs that follow blocks of given types, unless they start with
+  `\indent`. Set to `false` to disable. Use the `remove-after...` and
   `dont-remove-after...` options below to control which block types
   and Div classes are handled that way. By default first-line
   indentation is removed after Blockquote, lists (DefinitionList,
   BulletList, OrderedList, which include numbered example lists) and
   HorizontalRule blocks.
-* `set-metadata-variable` (default: `true`): boolean, whether the
-  filter add the metavariable `indent` with the value `true` when it
-  is missing. This is needed for Pandoc's LaTeX template to active
-  first line indentation in PDF output. 
-* `set-header-includes` (default `true`): whether the filter should
+
+`set-metadata-variable` (default: `true`): 
+
+: Whether the filter adds the metavariable `indent` with the value `true` when it
+  is missing. Without this Pandoc's LaTeX template does not use first-line
+  indentation in PDF output. 
+
+`set-header-includes` (default `true`)
+
+: Whether the filter should
   add formatting code to the document's `header-includes` metadata
   field. Set it to `false` if you use a custom template instead.
-* `remove-after`, `dont-remove-after`: decide whether to remove
-  first-line-indent automatically after blocks of a certain type.
+
+
+`remove-after`, `dont-remove-after`
+
+: Whether to remove
+  first-line indentations automatically after blocks of a certain type.
   These options can be a single string or a list of strings. The
   strings are case-sensitive and should correspond to [block types in
   Lua filters](https://pandoc.org/lua-filters.html#type-block):
   BlockQuote, BulletList, CodeBlock, DefinitionList, Div, Header,
   HorizontalRule, LineBlock, Null, OrderedList, Para, Plain, RawBlock,
-  Table. Inactive is `auto-remove` is false.
-* `remove-after-class`, `dont-remove-after-class`: decide whether to
-  remove first-line-indent automatically after elements of certain
-  classes. For instance, you can decide that elements with class
-  "endsparagraph" should not be followed by first-line-indent. Useful
-  for Div elements, if you use Divs of certain classes to typeset
-  material that doesn't end a paragraph. Inactive is `auto-remove` is
+  Table. Inactive if `auto-remove` is false.
+
+`remove-after-class`, `dont-remove-after-class`
+
+: Decide whether to
+  remove first-line indentation automatically after elements of certain
+  classes. For instance, you may use decide that when a block with class
+  "continuing" is followed by a paragraph, the latter should not 
+  be first-line indented. Useful for Div elements, if you use 
+  Divs of certain classes to wrap and typeset
+  material that doesn't end a paragraph. Inactive if `auto-remove` is
   false.
 
 To illustrate, suppose you don't want to filter to remove first-line
