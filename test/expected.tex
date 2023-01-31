@@ -181,20 +181,24 @@ We can also check that indent is removed after lists:
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
-\noindent We can check that default behaviour is overridden for elements
-of custom classes. We preserve indentation after certain code blocks:
+\noindent We check that this behavour is overriden for specified
+classes. We created a custom class to preserve indentation after certain
+elements:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{This code block should be followed by an indented paragraph,}
+\NormalTok{This code block }
+\NormalTok{should be followed }
+\NormalTok{by an indented }
+\NormalTok{paragraph}
 \end{Highlighting}
 \end{Shaded}
 
-And we remove it after certain Divs:
+And another one to remove indents after others:
 
 This paragraph's Div container should not be followed by indentation,
 
-\noindent as specified in the options.
+\noindent as specified in this document's options.
 
 \hypertarget{further-tests}{%
 \section{Further tests}\label{further-tests}}

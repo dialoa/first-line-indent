@@ -313,17 +313,21 @@ class="sourceCode lua"><code class="sourceCode lua"><span id="cb1-1"><a href="#c
 <p>Or horizontal rules.</p>
 <hr />
 <div class="no-first-line-indent-after"></div>
-<p>We can check that default behaviour is overridden for elements of
-custom classes. We preserve indentation after certain code blocks:</p>
+<p>We check that this behavour is overriden for specified classes. We
+created a custom class to preserve indentation after certain
+elements:</p>
 <div class="sourceCode" id="cb2"><pre
-class="sourceCode markdown keepit"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>This code block should be followed by an indented paragraph,</span></code></pre></div>
-<p>And we remove it after certain Divs:</p>
+class="sourceCode markdown keepit"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>This code block </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>should be followed </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>by an indented </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>paragraph</span></code></pre></div>
+<p>And another one to remove indents after others:</p>
 <div class="chuckit">
 <p>This paragraph’s Div container should not be followed by
 indentation,</p>
 </div>
 <div class="no-first-line-indent-after"></div>
-<p>as specified in the options.</p>
+<p>as specified in this document’s options.</p>
 <h1 id="further-tests">Further tests</h1>
 <p>In this document we added a few custom filter options.</p>
 <h2 id="size">Size</h2>
