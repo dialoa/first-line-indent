@@ -47,7 +47,7 @@ have a first-line indent.
 
 ## Manually specifying indentation on certain paragraphs
 
-In the couple couple of paragraphs that follow the quotes below, we
+In the couple of paragraphs that follow the quotes below, we
 have manually specified `\noindent` and `\indent` respectively. This
 is to check that the filter doesn't add its own commands to those.
 
