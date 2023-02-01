@@ -1,4 +1,4 @@
---[[# greetings.lua – turns any document into a friendly greeting
+--[[# indentation.lua – First line indentation filter
 
 Copyright: © 2021–2022 Contributors
 License: MIT – see LICENSE for details
