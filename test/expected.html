@@ -227,22 +227,24 @@
     code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
   <style>
-          p {
-            text-indent: 2em;
-            margin: 0;
-          }
-          header p {
-            text-indent: 0;
-            margin: 1em 0;          
-          }
-          :is(h1, h2, h3, h4, h5, h6) + p {
-            text-indent: 0;
-          }
-          li > p, li > div > p, li > div > div > p {
-            text-indent: 0;
-            margin-bottom: 1rem;
-          }
-                div.no-first-line-indent-after + p {
+  /* indentation filter styles */
+    p {
+      text-indent: 2em;
+      margin: 0;
+    }
+    header p {
+      text-indent: 0;
+      margin: 1em 0;          
+    }
+    :is(h1, h2, h3, h4, h5, h6) + p {
+      text-indent: 0;
+    }
+    li > p, li > div > p, li > div > div > p {
+      text-indent: 0;
+      margin-bottom: 1rem;
+    }
+    /* end of indentation filter styles */
+          div.no-first-line-indent-after + p {
             text-indent: 0;
           }
           div.first-line-indent-after + p {

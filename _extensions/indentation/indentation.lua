@@ -92,8 +92,7 @@ local code = {
 ---used to define HeaderIncludes.
 ---a \setlength{\parindent}{<size>} will be appended
 ---@type string
-local LATEX_QUOTE_ENV = [[
-  \makeatletter
+local LATEX_QUOTE_ENV = [[\makeatletter
   \renewenvironment{quote}
      {\list{}{\listparindent 1.5em%
               \itemindent \listparindent
@@ -113,23 +112,24 @@ HeaderIncludes = {
   glob = {
     html = function(size)
       size = size or Options.size_default
-      local code = [[
-        p {
-          text-indent: SIZE;
-          margin: 0;
-        }
-        header p {
-          text-indent: 0;
-          margin: 1em 0;          
-        }
-        :is(h1, h2, h3, h4, h5, h6) + p {
-          text-indent: 0;
-        }
-        li > p, li > div > p, li > div > div > p {
-          text-indent: 0;
-          margin-bottom: 1rem;
-        }
-      ]]
+      local code = [[/* indentation filter styles */
+  p {
+    text-indent: SIZE;
+    margin: 0;
+  }
+  header p {
+    text-indent: 0;
+    margin: 1em 0;          
+  }
+  :is(h1, h2, h3, h4, h5, h6) + p {
+    text-indent: 0;
+  }
+  li > p, li > div > p, li > div > div > p {
+    text-indent: 0;
+    margin-bottom: 1rem;
+  }
+  /* end of indentation filter styles */
+]]
       return code:gsub("SIZE", size)
     end,
     latex = function(size)

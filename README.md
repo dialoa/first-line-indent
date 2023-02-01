@@ -9,6 +9,13 @@ in HTML and LaTeX/PDF output.
 [CI badge]: https://img.shields.io/github/actions/workflow/status/dialoa/indentation/ci.yaml?branch=main
 [CI workflow]: https://github.com/dialoa/indentation/actions/workflows/ci.yaml
 
+[labelled-list-repo]: https://github.com/dialoa/dialectica-filters
+[PDMan-defaults]: https://pandoc.org/MANUAL.html#option--defaults
+[PDMan-filters]: https://pandoc.org/MANUAL.html#option--lua-filter
+[PDMan-types]: https://pandoc.org/lua-filters.html#type-block
+[RMd-book]: https://bookdown.org/yihui/rmarkdown-cookbook/lua-filters.html
+[CTAN-latex-classes]: (https://ctan.org/pkg/classes)
+
 Overview
 --------
 
@@ -51,22 +58,17 @@ pandoc --lua-filter indentation.lua ...
 ```
 
 Or specify it in a defaults file (see [Pandoc's manual:
-defaults][PDMan-defs]).
+defaults][PDMan-defaults]).
 
 You can place the filter file Pandoc's user data dir, or in an
 arbitrary folder (`-L path/to/indentation.lua`). See [Pandoc's
 manual:Lua filters][PDMan-filters]. 
-
-[PDMan-defs]: https://pandoc.org/MANUAL.html#option--defaults
-[PDMan-filters]: https://pandoc.org/MANUAL.html#option--lua-filter
 
 ### R Markdown
 
 Copy the file `indentation.lua` in your document folder. Use
 `pandoc_args` to invoke the filter. See the [R Markdown
 Cookbook][RMd-book] for details.
-
-[RMd-book]: https://bookdown.org/yihui/rmarkdown-cookbook/lua-filters.html
 
 ``` yaml
 ---
@@ -246,7 +248,7 @@ first-line-indent:
 ```
 
 With Pandoc, options can also be provided in a [default
-file](https://pandoc.org/MANUAL.html#option--defaults), placed within
+file][PdM-defaults], placed within
 the `metadata` key:
 
 ```yaml
@@ -305,7 +307,7 @@ metadata:
   first-line indentations automatically after blocks of a certain type.
   These options can be a single string or a list of strings. The
   strings are case-sensitive and should correspond to [block types in
-  Lua filters](https://pandoc.org/lua-filters.html#type-block):
+  Lua filters][PDMan-types]:
   BlockQuote, BulletList, CodeBlock, DefinitionList, Div, Header,
   HorizontalRule, LineBlock, Null, OrderedList, Para, Plain, RawBlock,
   Table. Inactive if `auto-remove` is false.
@@ -404,6 +406,16 @@ paragraphs placed just after a Div with the
 `no-first-line-indent-after` class, and the second rule keeps them in
 paragraphs that follow a `first-line-indent-after` Div.
 
+The indentation filter adds the following rule:
+
+``` css
+div.labelled-lists-list > p {
+    text-indent: 0;
+}
+```
+
+To avoid interference with Dialoa's [labelled-lists filter][labelled-list-repo].
+
 ### Block quotations and the LaTeX `quote` environment
 
 The filter applies first line indent style within block quotes, with
@@ -424,7 +436,7 @@ Quarto/Pandoc for block quotes) is redefined as follows in
 ```
 
 Which is the definition of LaTeX's `quotation` environment---see the
-[standard classes source](https://ctan.org/pkg/classes).
+[standard classes source][CTAN-latex-classes].
 
 If you redefine the `quote` environment, you should use this code as
 basis. 
