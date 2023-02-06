@@ -25,7 +25,7 @@ pandoctype = pandoc.utils.type
 ---@field set_header_includes boolean whether to provide formatting code in
 --    header-includes.
 ---@field auto_remove_indents boolean whether to automatically remove
---    indents after specific block types. 
+--    indents after specific block types.
 ---@field remove_after table list of strings, Pandoc AST block types
 --    after which first-line indents should be automatically removed.
 ---@field remove_after_class table list of strings, classes of elements
@@ -36,8 +36,8 @@ pandoctype = pandoc.utils.type
 ---@field size string|nil a CSS / LaTeX specification of the first line
 --    indent length
 ---@field recursive table<string, options> Pandoc Block types to
----     which the filter is recursively applied, with options map. 
----     The option `dont_indent_first` controls whether indentation 
+---     which the filter is recursively applied, with options map.
+---     The option `dont_indent_first` controls whether indentation
 ---     is removed on the first paragraph.
 local Options = {
   format = nil,
@@ -68,7 +68,7 @@ local Options = {
 -- # Filter global variables
 
 ---@class code map pandoc objects for indent/noindent Raw code.
---        beware: the LaTeX code is used to identify `\indent`, `noindent` 
+--        beware: the LaTeX code is used to identify `\indent`, `noindent`
 --        in the source as well as to produce output.
 local code = {
   tex = {
@@ -88,7 +88,7 @@ local code = {
 }
 
 
----latex_quote_code: LaTeX's definition of the quote environement
+---LATEX_QUOTE_ENV: LaTeX's definition of the quote environement
 ---used to define HeaderIncludes.
 ---a \setlength{\parindent}{<size>} will be appended
 ---@type string
@@ -103,11 +103,11 @@ local LATEX_QUOTE_ENV = [[\makeatletter
   \makeatother
 ]]
 
----@class HeaderIncludes map of functions to produce 
+---@class HeaderIncludes map of functions to produce
 ---header-includes code given a size parameter (string|nil),
 --- either for global or for local indentation markup.
 --- global = {html : function, latex: function}
---- local = {html : function, latex: function} 
+--- local = {html : function, latex: function}
 HeaderIncludes = {
   glob = {
     html = function(size)
@@ -119,7 +119,7 @@ HeaderIncludes = {
   }
   header p {
     text-indent: 0;
-    margin: 1em 0;          
+    margin: 1em 0;
   }
   :is(h1, h2, h3, h4, h5, h6) + p {
     text-indent: 0;
@@ -147,7 +147,7 @@ HeaderIncludes = {
         }
         div.first-line-indent-after + p {
           text-indent: SIZE;
-        }      
+        }
       ]]
       return code:gsub("SIZE", size)
     end,
@@ -160,7 +160,7 @@ HeaderIncludes = {
 -- # Helper functions
 
 -- ensure_list: turns Inlines and Blocks meta values into list
-local function ensure_list(elem) 
+local function ensure_list(elem)
   if elem and (pandoctype(elem) == 'Inlines'
     or pandoctype(elem) == 'Blocks')  then
     elem = pandoc.List:new(elem)
@@ -168,7 +168,7 @@ local function ensure_list(elem)
   return elem
 end
 
----add_header_includes: add a block to the document's header-includes 
+---add_header_includes: add a block to the document's header-includes
 ---meta-data field.
 ---@param meta pandoc.Meta the document's metadata block
 ---@param blocks pandoc.Blocks list of Pandoc block elements (e.g. RawBlock or Para)
@@ -195,13 +195,13 @@ local function add_header_includes(meta, blocks)
 end
 
 --- classes_include: check if one of an element's class is in a given
--- list. Returns true if match, nil if no match or the element doesn't 
+-- list. Returns true if match, nil if no match or the element doesn't
 -- have classes.
 ---@param elem table pandoc AST element
 ---@param classes table pandoc List of strings
 local function classes_include(elem,classes)
 
-  if elem.classes then 
+  if elem.classes then
 
     for _,class in ipairs(classes) do
       if elem.classes:includes(class) then return true end
@@ -225,7 +225,7 @@ end
 -- # Filter functions
 
 --- Add format-specific explicit indent markup to a paragraph.
---- Returns a list of blocks containing a single paragraph 
+--- Returns a list of blocks containing a single paragraph
 --- or a rawblock followed by a paragraph, depending on format.
 ---@param type string 'indent' or 'noindent', type of markup to add
 ---@param elem pandoc.Para
@@ -240,7 +240,7 @@ local function indent_markup(type, elem)
   elseif FORMAT:match('latex') then
 
     -- in LaTeX, replace any `\indent` or `\noindent`
-    -- at the beginning of the paragraph with 
+    -- at the beginning of the paragraph with
     -- with the one corresponding to `type`
 
     if elem.content[1] and is_indent_cmd(elem.content[1]) then
@@ -249,7 +249,7 @@ local function indent_markup(type, elem)
       elem.content:insert(1, code.tex[type])
     end
     result:insert(elem)
-    
+
 
   elseif FORMAT:match('html*') then
 
@@ -266,9 +266,9 @@ end
 -- automatically removes first-line indents after blocks of the
 -- designed types unless otherwise specified.
 ---@param blocks pandoc.Blocks element (list of blocks)
----@param dont_indent_first boolean whether to indent the first paragraph 
+---@param dont_indent_first boolean whether to indent the first paragraph
 local function process_blocks(blocks, dont_indent_first)
-  dont_indent_first = dont_indent_first or false 
+  dont_indent_first = dont_indent_first or false
   -- tag for the first element
   local is_first_block = true -- tags the doc's first element
   -- tag to trigger indentation auto-removal on the next element
@@ -278,8 +278,8 @@ local function process_blocks(blocks, dont_indent_first)
   for _,elem in pairs(blocks) do
 
     -- Paragraphs: if they have explicit LaTeX indent markup
-    -- reproduce it in the output format, otherwise 
-    -- remove indentation if needed, provided `auto_remove` is on. 
+    -- reproduce it in the output format, otherwise
+    -- remove indentation if needed, provided `auto_remove` is on.
     if elem.t == "Para" then
 
       if elem.content[1] and is_indent_cmd(elem) then
@@ -317,7 +317,7 @@ local function process_blocks(blocks, dont_indent_first)
 
           dont_indent_next_block = true
 
-        elseif elem.classes and 
+        elseif elem.classes and
             classes_include(elem, Options.remove_after_class) then
 
           dont_indent_next_block = true
@@ -342,7 +342,7 @@ local function process_blocks(blocks, dont_indent_first)
       result:insert(elem)
 
     end
-    
+
     -- ensure `is_first_block` turns to false
     -- even if the first block wasn't a paragraph
     -- or if it had explicit indent marking
@@ -370,7 +370,7 @@ local function process_doc(doc)
   end
 
   doc.blocks = process_blocks(doc.blocks, dont_indent_first)
-  
+
   return doc
 
 end
@@ -506,7 +506,7 @@ local function set_meta(meta)
     end
     -- provide local explicit indentation styles
     header_code = header_code .. HeaderIncludes.loc[format](Options.size)
-  
+
     -- HTML header code must be wrapped in a `<style>` tag
     if header_code ~= '' and format == 'html' then
       header_code = '<style>\n'..header_code..'</style>\n'
@@ -533,10 +533,10 @@ local function process_metadata(meta)
   local format = FORMAT:match('html') and 'html'
                 or (FORMAT:match('latex') and 'latex')
 
-  if not format then 
+  if not format then
     return nil
   else
-    Options.format = format 
+    Options.format = format
   end
 
   read_user_options(meta) -- places values in global `options`

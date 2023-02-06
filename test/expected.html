@@ -234,7 +234,7 @@
     }
     header p {
       text-indent: 0;
-      margin: 1em 0;          
+      margin: 1em 0;
     }
     :is(h1, h2, h3, h4, h5, h6) + p {
       text-indent: 0;
@@ -249,7 +249,7 @@
           }
           div.first-line-indent-after + p {
             text-indent: 2em;
-          }      
+          }
         </style>
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
@@ -335,6 +335,14 @@ indentation,</p>
 <h2 id="size">Size</h2>
 <p>The size of first-line indents is 2em instead of the default 1.5em
 (Pandoc) or 1em (Quarto).</p>
+<h2 id="indent-within-quotes">Indent within quotes</h2>
+<p>Blockquotes first-line indentation:</p>
+<blockquote>
+<div class="no-first-line-indent-after"></div>
+<p>Blockquotes should not be indented on their first paragraph but
+otherwise have the same size of ident as the main text.</p>
+<p>Hence this second paragraph has a first-line indentation of 2em.</p>
+</blockquote>
 <h2 id="keep-or-remove-indentation-after-certain-types-of-elements">Keep
 or remove indentation after certain types of elements</h2>
 <p>We also added an option to automatically remove indent after
