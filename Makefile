@@ -60,11 +60,12 @@ test_latex: $(FILTER_FILE) test/input.md test/test.yaml
 	$(PANDOC) --defaults test/test.yaml -t latex \
 		| $(DIFF) test/expected.tex -
 
-## Recreate expected outputs
+## Generate expected outputs
 # This file **must not** be a dependency of the `test` target, as that
 # would cause it to be regenerated on each run, making the test
 # pointless.
-recreate: test/expected.html test/expected.tex test/expected.pdf
+.PHONY: generate
+generate: test/expected.html test/expected.tex test/expected.pdf
 
 test/expected.html: $(FILTER_FILE) test/input.md test/test.yaml
 	$(PANDOC) --defaults test/test.yaml --output=$@

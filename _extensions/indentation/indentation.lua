@@ -1,6 +1,6 @@
 --[[# indentation.lua – First line indentation filter
 
-Copyright: © 2021–2022 Contributors
+Copyright: © 2021–2023 Contributors
 License: MIT – see LICENSE for details
 
 @TODO latex_quote should use options.size (or better, a specific option)
@@ -68,8 +68,6 @@ local Options = {
 -- # Filter global variables
 
 ---@class code map pandoc objects for indent/noindent Raw code.
---        beware: the LaTeX code is used to identify `\indent`, `noindent`
---        in the source as well as to produce output.
 local code = {
   tex = {
     indent = pandoc.RawInline('tex', '\\indent '),
@@ -214,11 +212,18 @@ end
 --- is_indent_cmd: check if an element is a LaTeX indent command
 ---@param elem pandoc.Inline
 ---@return string|nil 'indent', 'noindent' or nil
+-- local function is_indent_cmd(elem)
+--   return (equals(elem, code.latex.indent)
+--     or equals(elem, code.tex.indent)) and 'indent'
+--     or (equals(elem, code.latex.noindent)
+--     or equals(elem, code.tex.noindent)) and 'noindent'
+--     or nil
+-- end
 local function is_indent_cmd(elem)
-  return (equals(elem, code.latex.indent)
-    or equals(elem, code.tex.indent)) and 'indent'
-    or (equals(elem, code.latex.noindent)
-    or equals(elem, code.tex.noindent)) and 'noindent'
+  return elem.text and (
+      elem.text:match('^%s*\\indent%s*$') and 'indent'
+      or elem.text:match('^%s*\\noindent%s*$') and 'noindent'
+    )
     or nil
 end
 
@@ -282,7 +287,7 @@ local function process_blocks(blocks, dont_indent_first)
     -- remove indentation if needed, provided `auto_remove` is on.
     if elem.t == "Para" then
 
-      if elem.content[1] and is_indent_cmd(elem) then
+      if elem.content[1] and is_indent_cmd(elem.content[1]) then
 
         -- 'indent' or 'noindent' ?
         local type = is_indent_cmd(elem.content[1])
