@@ -3,8 +3,7 @@ Indentation
 
 [![GitHub build status][CI badge]][CI workflow]
 
-Quarto/Pandoc/R Markdown extension to typeset first-line indents
-in HTML and LaTeX/PDF output. 
+Smart first-line indentation in Quarto and Pandoc for HTML/LaTeX/PDF outputs. 
 
 [CI badge]: https://img.shields.io/github/actions/workflow/status/dialoa/indentation/ci.yaml?branch=main
 [CI workflow]: https://github.com/dialoa/indentation/actions/workflows/ci.yaml
