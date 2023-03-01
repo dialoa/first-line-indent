@@ -1,9 +1,9 @@
-Indentation
-===========
+First-line Indent
+=================
 
 [![GitHub build status][CI badge]][CI workflow]
 
-Smart first-line indentation in Quarto and Pandoc for HTML/LaTeX/PDF outputs. 
+Smart first-line indents in Quarto and Pandoc for HTML/LaTeX/PDF outputs. 
 
 [CI badge]: https://img.shields.io/github/actions/workflow/status/dialoa/indentation/ci.yaml?branch=main
 [CI workflow]: https://github.com/dialoa/indentation/actions/workflows/ci.yaml
@@ -18,7 +18,7 @@ Smart first-line indentation in Quarto and Pandoc for HTML/LaTeX/PDF outputs.
 Overview
 --------
 
-Quarto/Pandoc's support of first-line indentation is limited: it's not
+Quarto/Pandoc's support of first-line indents is limited: it's not
 available in HTML output and delegated to LaTeX PDF output. This
 filter provides a first-line indentation style with smart defaults,
 full customization, and manual control for fine-grain adjustments.
@@ -31,41 +31,41 @@ Installation
 Install this filter in a document's folder by running:
 
 ```bash
-quarto install extension dialoa/indentation
+quarto install extension dialoa/first-line-indent
 ```
 
 on the command line (terminal in RStudio).
 
-Use it by adding `indentation` to the `filters` entry
+Use it by adding `first-line-indent` to the `filters` entry
 of your YAML header.
 
 ``` yaml
 ---
 filters:
-  - indentation
+  - first-line-indent
 ---
 ```
 
 ### Pandoc
 
-Copy the file `indentation.lua` in your document folder. Pass 
+Copy the file `first-line-indent.lua` in your document folder. Pass 
 the filter to Pandoc via the `--lua-filter` (or `-L`) command
 line option.
 
 ``` bash
-pandoc --lua-filter indentation.lua ...
+pandoc --lua-filter first-line-indent.lua ...
 ```
 
 Or specify it in a defaults file (see [Pandoc's manual:
 defaults][PDMan-defaults]).
 
 You can place the filter file Pandoc's user data dir, or in an
-arbitrary folder (`-L path/to/indentation.lua`). See [Pandoc's
+arbitrary folder (`-L path/to/first-line-indent.lua`). See [Pandoc's
 manual:Lua filters][PDMan-filters]. 
 
 ### R Markdown
 
-Copy the file `indentation.lua` in your document folder. Use
+Copy the file `first-line-indent.lua` in your document folder. Use
 `pandoc_args` to invoke the filter. See the [R Markdown
 Cookbook][RMd-book] for details.
 
@@ -73,7 +73,7 @@ Cookbook][RMd-book] for details.
 ---
 output:
   word_document:
-    pandoc_args: ['--lua-filter=indentation.lua']
+    pandoc_args: ['--lua-filter=first-line-indent.lua']
 ---
 ```
 
@@ -84,7 +84,7 @@ path, e.g.:
 ---
 output:
   word_document:
-    pandoc_args: ['--lua-filter=../path/to/indentation.lua']
+    pandoc_args: ['--lua-filter=../path/to/first-line-indent.lua']
 ---
 ```
 
