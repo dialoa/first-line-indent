@@ -1,4 +1,4 @@
---[[# indentation.lua – First line indentation filter
+--[[# first-line-indent.lua – First line indentation filter
 
 Copyright: © 2021–2023 Contributors
 License: MIT – see LICENSE for details
@@ -110,7 +110,7 @@ HeaderIncludes = {
   glob = {
     html = function(size)
       size = size or Options.size_default
-      local code = [[/* indentation filter styles */
+      local code = [[/* First-line Indent filter styles */
   p {
     text-indent: SIZE;
     margin: 0;
@@ -126,7 +126,7 @@ HeaderIncludes = {
     text-indent: 0;
     margin-bottom: 1rem;
   }
-  /* end of indentation filter styles */
+  /* end of First-line Indent filter styles */
 ]]
       return code:gsub("SIZE", size)
     end,

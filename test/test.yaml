@@ -1,4 +1,4 @@
 input-files: ["test/input.md"]
 standalone: true
 filters:
-  - {type: lua, path: indentation.lua}
+  - {type: lua, path: first-line-indent.lua}
