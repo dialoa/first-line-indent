@@ -1,6 +1,6 @@
 name: first-line-indent
 author: Julien Dutant
-version: 0.9.2
+version: 0.9.4
 contributes:
   filters:
     - first-line-indent.lua
