@@ -15,7 +15,7 @@ Smart first-line indents in Quarto and Pandoc for HTML/LaTeX/PDF outputs.
 [PDMan-filters]: https://pandoc.org/MANUAL.html#option--lua-filter
 [PDMan-types]: https://pandoc.org/lua-filters.html#type-block
 [RMd-book]: https://bookdown.org/yihui/rmarkdown-cookbook/lua-filters.html
-[CTAN-latex-classes]: (https://ctan.org/pkg/classes)
+[CTAN-latex-classes]: https://ctan.org/pkg/classes
 
 Overview
 --------
