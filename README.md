@@ -25,6 +25,57 @@ available in HTML output and delegated to LaTeX PDF output. This
 filter provides a first-line indentation style with smart defaults,
 full customization, and manual control for fine-grain adjustments.
 
+Background
+----------
+
+Paragraphs are typically separated in either of two ways: by vertical 
+whitespace (common on the web) or by indenting their first line (common 
+in books). For the latter conventions vary across typographic traditions:
+some (French) indent the first-line of every paragraph while
+others (English) don't indent paragraphs after section headings
+and indented material such as blockquotes or lists. 
+
+First-line indents are commonly 1\ em, going from 0.5\ em in narrow
+line width to 3\ em in wide line widths. LaTeX defaults, used by
+Pandoc and Quarto in PDF output, are 1.5\ em in the article and memoir
+classes, 1\ em in the KOMA classes.
+
+Default Quarto and Pandoc output uses vertical whitespace to separate
+paragraphs. In HTML output this cannot be changed. In PDF output, the
+first-line indent style can be used by setting the metadata variable
+`indent` to `true`. This has some limitations, however:
+
+* English style indentation is applied, whichever language the `lang`
+  variable specifies. French, for isntance, indents paragraphs even
+  after section headings.
+* Every line following a blockquote, list, code block or other block
+  element is treated as a new paragraph, hence indented. This is
+  typically, though not always, unwanted, as the text following a
+  blockquote or list is usually a continuation of the same paragraph.
+* The first line under a title or chapter title is indented. This
+  LaTeX default isn't good typography: the first paragraph doesn't
+  need a separation. 
+
+This filter provides first-line indentation in HTML output and 
+improves its handling in both PDF and HTML outputs. 
+
+1) First-line indentation is used to separate paragraphs, unless
+   `indent` is set to `false`. 
+2) It generates HTML outputs with first-line indent style. That is
+  done by appending CSS code in the document's metadata
+  `header-includes` field. This can be disabled if you want to provide
+  your own CSS.
+1) You can keep or remove the indent of specific paragraphs manually,
+   by adding `\indent` and `\noindent` at the beginning of the
+   paragraph in the markdown source. These are LaTeX commands but will
+   work with HTML output too.
+2) First-line indentation is not applied certain block elements: by
+   default, not after lists, block quotes, code blocks and horizontal
+   rules. You can specify which through the filter's options. This can
+   be overridden on a per-paragraph basis by inserting `\indent` at
+   the beginning of the paragraph. 
+3) The width of first-line indentations can be customized.
+
 Installation
 ------------
 
@@ -93,8 +144,8 @@ output:
 Basic usage
 -----------
 
-See also the [sample input file](test/input.md) and the resulting
-[HTML output](test/expected.html).
+See also the [sample input file](https://dialoa.github.io/first-line-indent/#input.md) 
+and the resulting [HTML output](https://dialoa.github.io/first-line-indent/#output.html).
 
 ### Applying first-line indent to a whole document
 
@@ -156,56 +207,6 @@ followed by a citation.
 
 Advanced usage
 --------------
-
-### Typesetting background
-
-Paragraphs can be separated in two ways: by vertical whitespace
-(common on the web) or by indenting their first line (common in
-books). For the latter conventions vary across typographic traditions:
-some (*e.g.* French) indent the first-line of every paragraph while
-others (*e.g.* English) don't indent paragraphs after section headings
-and indented material such as blockquotes or lists. 
-
-First-line indentation is commonly 1\ em, going from 0.5\ em in narrow
-line width to 3\ em in wide line widths. LaTeX defaults, used by
-Pandoc and Quarto in PDF output, are 1.5\ em in the article and memoir
-classes, 1\ em in the KOMA classes.
-
-Default Quarto and Pandoc output uses vertical whitespace to separate
-paragraphs. In HTML output this cannot be changed. In PDF output, the
-first-line indent style can be used by setting the metadata variable
-`indent` to `true`. This has some limitations, however:
-
-* English style indentation is applied, whichever language the `lang`
-  variable specifies. French, for isntance, indents paragraphs even
-  after section headings.
-* Every line following a blockquote, list, code block or other block
-  element is treated as a new paragraph, hence indented. This is
-  typically, though not always, unwanted, as the text following a
-  blockquote or list is usually a continuation of the same paragraph.
-* The first line under a title or chapter title is indented. This
-  LaTeX default isn't good typography: the first paragraph doesn't
-  need a separation. 
-
-This filter provides first-line indentation in HTML output and 
-improves its handling in both PDF and HTML outputs. 
-
-1) First-line indentation is used to separate paragraphs, unless
-   `indent` is set to `false`. 
-2) It generates HTML outputs with first-line indent style. That is
-  done by appending CSS code in the document's metadata
-  `header-includes` field. This can be disabled if you want to provide
-  your own CSS.
-1) You can keep or remove the indent of specific paragraphs manually,
-   by adding `\indent` and `\noindent` at the beginning of the
-   paragraph in the markdown source. These are LaTeX commands but will
-   work with HTML output too.
-2) First-line indentation is not applied certain block elements: by
-   default, not after lists, block quotes, code blocks and horizontal
-   rules. You can specify which through the filter's options. This can
-   be overridden on a per-paragraph basis by inserting `\indent` at
-   the beginning of the paragraph. 
-3) The width of first-line indentations can be customized.
 
 ### Filter options
 
@@ -451,7 +452,7 @@ override the filter's commands.
 Contributing
 ------------
 
-PRs welcome. 
+Issues and PRs welcome. 
 
 License
 ------------------------------------------------------------------
