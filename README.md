@@ -5,6 +5,8 @@ First-line Indent
 
 Smart first-line indents in Quarto and Pandoc for HTML/LaTeX/PDF outputs. 
 
+[See on GitHub](https://github.com/dialoa/first-line-indent/)
+
 [CI badge]: https://img.shields.io/github/actions/workflow/status/dialoa/indentation/ci.yaml?branch=main
 [CI workflow]: https://github.com/dialoa/indentation/actions/workflows/ci.yaml
 
@@ -77,8 +79,8 @@ output:
 ---
 ```
 
-You can place the folder in another folder, provided you specify its
-path, e.g.:
+You can place the filter in another folder, provided you specify its
+path:
 
 ``` yaml
 ---
