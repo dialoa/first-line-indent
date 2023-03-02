@@ -250,7 +250,7 @@ first-line-indent:
 ```
 
 With Pandoc, options can also be provided in a [default
-file][PdM-defaults], placed within
+file][PDMan-defaults], placed within
 the `metadata` key:
 
 ```yaml
