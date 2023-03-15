@@ -3,7 +3,8 @@ First-line Indent
 
 [![GitHub build status][CI badge]][CI workflow]
 
-Smart first-line indents in Quarto and Pandoc for HTML/LaTeX/PDF outputs. 
+Smart first-line indents in [Quarto][Q-guide] and [Pandoc][PDMan] 
+for HTML and LaTeX/PDF outputs. 
 
 [See on GitHub](https://github.com/dialoa/first-line-indent/)
 
@@ -11,11 +12,15 @@ Smart first-line indents in Quarto and Pandoc for HTML/LaTeX/PDF outputs.
 [CI workflow]: https://github.com/dialoa/indentation/actions/workflows/ci.yaml
 
 [labelled-list-repo]: https://github.com/dialoa/dialectica-filters
+[PDMan]: https://pandoc.org/MANUAL.html
 [PDMan-defaults]: https://pandoc.org/MANUAL.html#option--defaults
+[PDMan-metadata-files]: https://pandoc.org/MANUAL.html#option--metadata-file
 [PDMan-filters]: https://pandoc.org/MANUAL.html#option--lua-filter
 [PDMan-types]: https://pandoc.org/lua-filters.html#type-block
 [RMd-book]: https://bookdown.org/yihui/rmarkdown-cookbook/lua-filters.html
 [CTAN-latex-classes]: https://ctan.org/pkg/classes
+[Q-metadata-file]: https://quarto.org/docs/projects/quarto-projects.html#metadata-includes
+[Q-guide]: https://quarto.org/docs/guide/
 
 Overview
 --------
@@ -28,33 +33,37 @@ full customization, and manual control for fine-grain adjustments.
 Background
 ----------
 
-Paragraphs are typically separated in either of two ways: by vertical 
-whitespace (common on the web) or by indenting their first line (common 
-in books). For the latter conventions vary across typographic traditions:
-some (French) indent the first-line of every paragraph while
-others (English) don't indent paragraphs after section headings
-and indented material such as blockquotes or lists. 
+Paragraphs are typically separated in either of two ways: by vertical
+whitespace (common on the web) or by indenting their first line (common
+in books). There is some variation in the first-line indent style
+itself: some apply it to every paragraph, others don't apply it 
+to paragraphs below a section heading, blockquote or the like.
+They also vary in size, the most common being between half an
+em (the width of the letter 'm') for narrow text to
+3 ems for wide text. 1 to 1.5em are probably the most standard
+values. 
 
-First-line indents are commonly 1\ em, going from 0.5\ em in narrow
-line width to 3\ em in wide line widths. LaTeX defaults, used by
-Pandoc and Quarto in PDF output, are 1.5\ em in the article and memoir
-classes, 1\ em in the KOMA classes.
+Quarto and Pandoc use vertical whitespace by default. In HTML 
+outputs that cannot be changed. In LaTeX/PDF output one can
+switch to first-line indent by setting the metadata variable
+`indent` to `true`. There are some limitations, however:
 
-Default Quarto and Pandoc output uses vertical whitespace to separate
-paragraphs. In HTML output this cannot be changed. In PDF output, the
-first-line indent style can be used by setting the metadata variable
-`indent` to `true`. This has some limitations, however:
-
-* English style indentation is applied, whichever language the `lang`
-  variable specifies. French, for isntance, indents paragraphs even
-  after section headings.
+* standard English style is applied: no first-line indents after
+  headings.
+* But first-line indents are applied below titles. This LaTeX
+  default isn't good typography: the first paragraph doesn't
+  need a separation.  
 * Every line following a blockquote, list, code block or other block
   element is treated as a new paragraph, hence indented. This is
-  typically, though not always, unwanted, as the text following a
+  most often (but not always) unwanted, as the text following a
   blockquote or list is usually a continuation of the same paragraph.
-* The first line under a title or chapter title is indented. This
-  LaTeX default isn't good typography: the first paragraph doesn't
-  need a separation. 
+* The size of first-line indent is determined by the underlying
+  LaTeX document "class" used. The standard classes (`article`,
+  `book`) and Memoir (`memoir`) use 1.5\ em, the KOMA classes 
+  (`scrartcl`, `scrbook`) 1\ em. Pandoc uses the standard
+  article class by default, Quarto its KOMA equivalent, so
+  you get 1.5\ em with the first and 1\ em with the second. 
+  You need to insert LaTeX code in your document to change this.
 
 This filter provides first-line indentation in HTML output and 
 improves its handling in both PDF and HTML outputs. 
@@ -232,7 +241,21 @@ first-line-indent:
   dont-remove-after-class: 
 ```
 
-Different options can be provided for different output formats.
+Different options can be provided for different output formats. This
+is standard with Quarto, but the filter also reads these with Pandoc:
+
+```yaml
+format:
+  html:
+    indent: true
+    first-line-indent:
+      size: 2em
+  pdf:
+    indent: true
+    first-line-indent:
+      size: 1.5em
+```
+
 Format-specific options override global ones. For instance, to disable
 first line indentation in HTML output only:
 
@@ -249,18 +272,9 @@ first-line-indent:
   size: 2em
 ```
 
-With Pandoc, options can also be provided in a [default
-file][PDMan-defaults], placed within
-the `metadata` key:
-
-```yaml
-metadata:
-  indent: true
-  first-line-indent:
-    size: 
-    auto-remove: true
-    ...
-```
+Options can be passed in a separate metadata file 
+([Quarto][Q-metadata-file], [Pandoc]([PDMan-metadata-files])
+or defaults ([Pandoc only][PDMan-defaults]). 
 
 ### Options reference
 
