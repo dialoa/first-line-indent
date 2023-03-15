@@ -155,6 +155,20 @@ HeaderIncludes = {
   }
 }
 
+-- # encapsulate Quarto/Pandoc variants
+
+---format_match: whether format matches a string pattern
+---ex: format_match('html5'), format_match('html*')
+---in Quarto we try removing non-alphabetical chars
+---@param pattern string
+---@return boolean
+local function format_match(pattern)
+  return quarto and (quarto.doc.is_format(pattern)
+      or quarto.doc.is_format(pattern:gsub('%A',''))
+    )
+    or FORMAT:match(pattern)
+end
+
 -- # Helper functions
 
 -- ensure_list: turns Inlines and Blocks meta values into list
@@ -242,7 +256,7 @@ local function indent_markup(type, elem)
 
     result:insert(elem)
 
-  elseif FORMAT:match('latex') then
+  elseif format_match('latex') then
 
     -- in LaTeX, replace any `\indent` or `\noindent`
     -- at the beginning of the paragraph with
@@ -256,7 +270,7 @@ local function indent_markup(type, elem)
     result:insert(elem)
 
 
-  elseif FORMAT:match('html*') then
+  elseif format_match('html') then
 
     result:extend({ code.html[type], elem })
 
@@ -398,7 +412,7 @@ local function read_user_options(meta)
   local formats = {'pdf', 'html', 'latex'}
   if meta.format then
     for format in ipairs(formats) do
-      if FORMAT:match(format) and meta.format[format] then
+      if format_match(format) and meta.format[format] then
         for k,v in meta.format[format] do
           user_options[k] = v
         end
@@ -535,8 +549,8 @@ end
 local function process_metadata(meta)
   local changes = false -- only return if changes are made
   local header_code = nil
-  local format = FORMAT:match('html') and 'html'
-                or (FORMAT:match('latex') and 'latex')
+  local format = format_match('html') and 'html'
+                or (format_match('latex') and 'latex')
 
   if not format then
     return nil
