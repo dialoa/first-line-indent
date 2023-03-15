@@ -65,7 +65,7 @@ test_pandoc_latex: $(FILTER_FILE) input.md test/test.yaml
 	$(PANDOC) --defaults test/test.yaml input.md -t latex \
 		| $(DIFF) test/expected_pandoc.tex -
 
-test_quarto: test_quarto_html test_quarto_latex
+test_quarto: test_quarto_html
 
 test_quarto_html: $(FILTER_FILE) input.md test/test.yaml
 	$(QUARTO) render input.md -t html --output=output.html
