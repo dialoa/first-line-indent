@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Julien Dutant">
+<meta name="dcterms.date" content="2023-03-15">
+
+<title>First-line Indent</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="input_files/libs/clipboard/clipboard.min.js"></script>
+<script src="input_files/libs/quarto-html/quarto.js"></script>
+<script src="input_files/libs/quarto-html/popper.min.js"></script>
+<script src="input_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="input_files/libs/quarto-html/anchor.min.js"></script>
+<link href="input_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="input_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="input_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="input_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="input_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<style>
+/* First-line Indent filter styles */
+  p {
+    text-indent: 2em;
+    margin: 0;
+  }
+  header p {
+    text-indent: 0;
+    margin: 1em 0;
+  }
+  :is(h1, h2, h3, h4, h5, h6) + p {
+    text-indent: 0;
+  }
+  li > p, li > div p {
+    text-indent: 0;
+    margin-bottom: 1rem;
+  }
+  /* end of First-line Indent filter styles */
+        div.no-first-line-indent-after + p {
+          text-indent: 0;
+        }
+        div.first-line-indent-after + p {
+          text-indent: 2em;
+        }
+      </style>
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">First-line Indent</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Julien Dutant </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">March 15, 2023</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<div class="no-first-line-indent-after"></div>
+<p>This document illustrates first-line indent typesetting. In English typography, paragraphs just below a section heading aren’t indented, because a heading is enough to separate them from what is before. The same should apply to the first paragraph of a document with a title—so this paragraph is not indented.</p>
+<p>This paragraph is indented. But after this quote:</p>
+<blockquote class="blockquote">
+<div class="no-first-line-indent-after"></div>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+</blockquote>
+<div class="no-first-line-indent-after"></div>
+<p>the paragraph continues, so there should not be a first-line indent.</p>
+<p>We want this quote to end a paragraph:</p>
+<blockquote class="blockquote">
+<div class="no-first-line-indent-after"></div>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+</blockquote>
+<div class="first-line-indent-after"></div>
+<p>The text below therefore begins a new paragraph and should have a first-line indent. We have to manually specify using <code>\indent</code>.</p>
+<section id="basic-tests" class="level1">
+<h1>Basic tests</h1>
+<p>After a heading (in English typographic style) the paragraph does not have a first-line indent.</p>
+<section id="manually-specifying-indentation-on-certain-paragraphs" class="level2">
+<h2 class="anchored" data-anchor-id="manually-specifying-indentation-on-certain-paragraphs">Manually specifying indentation on certain paragraphs</h2>
+<p>In the couple of paragraphs that follow the quotes below, we have manually specified <code>\noindent</code> and <code>\indent</code> respectively. This is to check that the filter doesn’t add its own commands to those.</p>
+<blockquote class="blockquote">
+<div class="no-first-line-indent-after"></div>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+</blockquote>
+<div class="first-line-indent-after"></div>
+<p>Here we’ve explicitly required a first line indent.</p>
+<div class="no-first-line-indent-after"></div>
+<p>Here we’ve explicitly required <em>not</em> to have one.</p>
+</section>
+<section id="automatic-removal-of-first-line-indentation" class="level2">
+<h2 class="anchored" data-anchor-id="automatic-removal-of-first-line-indentation">Automatic removal of first line indentation</h2>
+<p>We can also check that indent is removed after lists:</p>
+<ul>
+<li>A bullet</li>
+<li>list</li>
+</ul>
+<div class="no-first-line-indent-after"></div>
+<p>And after code blocks:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode lua code-with-copy"><code class="sourceCode lua"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> variable <span class="op">=</span> <span class="st">"value"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="no-first-line-indent-after"></div>
+<p>Or horizontal rules.</p>
+<hr>
+<div class="no-first-line-indent-after"></div>
+<p>We check that this behavour is overriden for specified classes. We created a custom class to preserve indentation after certain elements:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode markdown keepit code-with-copy"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>This code block </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>should be followed </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>by an indented </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>paragraph</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>And another one to remove indents after others:</p>
+<div class="chuckit">
+<p>This paragraph’s Div container should not be followed by indentation,</p>
+</div>
+<div class="no-first-line-indent-after"></div>
+<p>as specified in this document’s options.</p>
+</section>
+</section>
+<section id="further-tests" class="level1">
+<h1>Further tests</h1>
+<p>In this document we added a few custom filter options.</p>
+<section id="size" class="level2">
+<h2 class="anchored" data-anchor-id="size">Size</h2>
+<p>The size of first-line indents is 2em instead of the default 1.5em (Pandoc) or 1em (Quarto).</p>
+</section>
+<section id="indent-within-quotes" class="level2">
+<h2 class="anchored" data-anchor-id="indent-within-quotes">Indent within quotes</h2>
+<p>Blockquotes first-line indentation:</p>
+<blockquote class="blockquote">
+<div class="no-first-line-indent-after"></div>
+<p>Blockquotes should not be indented on their first paragraph but otherwise have the same size of ident as the main text.</p>
+<p>Hence this second paragraph has a first-line indentation of 2em.</p>
+</blockquote>
+</section>
+<section id="keep-or-remove-indentation-after-certain-types-of-elements" class="level2">
+<h2 class="anchored" data-anchor-id="keep-or-remove-indentation-after-certain-types-of-elements">Keep or remove indentation after certain types of elements</h2>
+<p>We also added an option to automatically remove indent after tables:</p>
+<table class="table">
+<caption>Demonstration of simple table syntax.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Right</th>
+<th style="text-align: left;">Left</th>
+<th style="text-align: center;">Center</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">12</td>
+<td style="text-align: left;">12</td>
+<td style="text-align: center;">12</td>
+<td>12</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">123</td>
+<td style="text-align: left;">123</td>
+<td style="text-align: center;">123</td>
+<td>123</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: center;">1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<div class="no-first-line-indent-after"></div>
+<p>So this paragraph’s first line is not indented. We added the option <em>not</em> to remove ident after ordered lists and definition lists:</p>
+<dl>
+<dt>Definition</dt>
+<dd>
+This is a definition block.
+</dd>
+</dl>
+<p>So this paragraph is indented.</p>
+<ol type="1">
+<li>An ordered</li>
+<li>list</li>
+</ol>
+<p>And this one is too.</p>
+</section>
+<section id="recursion-and-nesting" class="level2">
+<h2 class="anchored" data-anchor-id="recursion-and-nesting">Recursion and nesting</h2>
+<p>The paragraphs below are nested within a Div element—actually, two nested Divs, in order to check that the filter is applied recursively within Divs.</p>
+<div id="div">
+<div id="subdiv">
+<p>The first paragraph within a Div is indented normally, but the list below</p>
+<ul>
+<li>list item</li>
+<li>list item</li>
+</ul>
+<div class="no-first-line-indent-after"></div>
+<p>should not be followed by a indented paragraph.</p>
+<p>The last paragraph within Divs should be indented normally.</p>
+</div>
+</div>
+<p>The filter is also applied recursively within blockquotes. A blockquote’s first paragraph shouldn’t be indented, but any subsequent ones should. Within the block quotes, indents should be removed after special blocks, as in the main text.</p>
+<blockquote class="blockquote">
+<div class="no-first-line-indent-after"></div>
+<p>The first paragraph of this blockquote does not have a first line indent.</p>
+<p>The subsequent paragraph has one. It’s followed:</p>
+<ul>
+<li>by a</li>
+<li>list</li>
+</ul>
+<div class="no-first-line-indent-after"></div>
+<p>after which there is no first line indentation.</p>
+<p>This next paragraph is first line indented again..</p>
+</blockquote>
+</section>
+<section id="list-content" class="level2">
+<h2 class="anchored" data-anchor-id="list-content">List content</h2>
+<p>Within lists, paragraphs should be separated by vertical whitespace.</p>
+<ul>
+<li><p>This list item contains multiple paragraphs.</p>
+<p>The second one should not be indented, but separated by vertical whitespace.</p></li>
+</ul>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

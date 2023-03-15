@@ -7,8 +7,11 @@ FILTER_NAME = $(patsubst %.lua,%,$(FILTER_FILE))
 WEBSITE_OUTPUT_FORMAT = html
 WEBSITE_OUTPUT_EXT = html
 
-# Allow to use a different pandoc binary, e.g. when testing.
+# Allow to use a different Pandoc binary, e.g. when testing,
+# or Quarto-embedded pandoc with `quarto pandoc`
 PANDOC ?= pandoc
+# Allow to use a different Quarto binary
+QUARTO = quarto
 # Allow to adjust the diff command if necessary
 DIFF = diff
 # Use a POSIX sed with ERE ('v' is specific to GNU sed)
@@ -50,31 +53,65 @@ help:
 # (i.e., the filter file).
 # let `test` be a PHONY target so that it is run each time it's called.
 .PHONY: test
-test: test_html test_latex
+test: test_pandoc test_quarto
 
-test_html: $(FILTER_FILE) test/input.md test/test.yaml
-	$(PANDOC) --defaults test/test.yaml -t html \
-		| $(DIFF) test/expected.html -
+test_pandoc: test_pandoc_html test_pandoc_latex
 
-test_latex: $(FILTER_FILE) test/input.md test/test.yaml
-	$(PANDOC) --defaults test/test.yaml -t latex \
-		| $(DIFF) test/expected.tex -
+test_pandoc_html: $(FILTER_FILE) input.md test/test.yaml
+	$(PANDOC) --defaults test/test.yaml input.md -t html \
+		| $(DIFF) test/expected_pandoc.html -
+
+test_pandoc_latex: $(FILTER_FILE) input.md test/test.yaml
+	$(PANDOC) --defaults test/test.yaml input.md -t latex \
+		| $(DIFF) test/expected_pandoc.tex -
+
+test_quarto: test_quarto_html test_quarto_latex
+
+test_quarto_html: $(FILTER_FILE) input.md test/test.yaml
+	$(QUARTO) render input.md -t html --output=output.html
+	$(DIFF) test/expected_quarto.html test/output.html
+	rm test/output.html
+
+# Cannot check Quarto's LaTeX as it's not constant between inputs
+# line: \ifdefined\Shaded\renewenvironment{Shaded}...
+# ...{\begin{tcolorbox}[breakable, etc. 
+# the `tcolorbox` options order changes on each run.
+#
+# test_quarto_latex: $(FILTER_FILE) input.md test/test.yaml
+#	$(QUARTO) render input.md -t latex --output=output.tex
+#	$(DIFF) test/expected_quarto.tex test/output.tex
+#	rm test/output.tex
 
 ## Generate expected outputs
 # This file **must not** be a dependency of the `test` target, as that
 # would cause it to be regenerated on each run, making the test
 # pointless.
 .PHONY: generate
-generate: test/expected.html test/expected.tex test/expected.pdf
+generate: gen_pandoc gen_quarto
 
-test/expected.html: $(FILTER_FILE) test/input.md test/test.yaml
-	$(PANDOC) --defaults test/test.yaml --output=$@
+gen_pandoc: test/expected_pandoc.html test/expected_pandoc.tex \
+	test/expected_pandoc.pdf
 
-test/expected.tex: $(FILTER_FILE) test/input.md test/test.yaml
-	$(PANDOC) --defaults test/test.yaml --output=$@
+test/expected_pandoc.html: $(FILTER_FILE) input.md test/test.yaml
+	$(PANDOC) --defaults test/test.yaml input.md --output=$@
 
-test/expected.pdf: $(FILTER_FILE) test/input.md test/test.yaml
-	$(PANDOC) --defaults test/test.yaml --output=$@
+test/expected_pandoc.tex: $(FILTER_FILE) input.md test/test.yaml
+	$(PANDOC) --defaults test/test.yaml input.md --output=$@
+
+test/expected_pandoc.pdf: $(FILTER_FILE) input.md test/test.yaml
+	$(PANDOC) --defaults test/test.yaml input.md --output=$@
+
+gen_quarto: test/expected_quarto.html test/expected_quarto.tex \
+	test/expected_quarto.pdf
+
+test/expected_quarto.html: $(FILTER_FILE) input.md
+	$(QUARTO) render input.md -t html --output=expected_quarto.html
+
+test/expected_quarto.tex: $(FILTER_FILE) input.md
+	$(QUARTO) render input.md -t latex --output=expected_quarto.tex
+
+test/expected_quarto.pdf: $(FILTER_FILE) input.md
+	$(QUARTO) render input.md -t pdf --output=expected_quarto.pdf
 
 #
 # Website
@@ -84,13 +121,13 @@ test/expected.pdf: $(FILTER_FILE) test/input.md test/test.yaml
 .PHONY: website
 website: _site/index.html _site/$(FILTER_FILE)
 
-_site/index.html: README.md test/input.md $(FILTER_FILE) .tools/docs.lua \
+_site/index.html: README.md input.md $(FILTER_FILE) .tools/docs.lua \
 		_site/output.$(WEBSITE_OUTPUT_EXT) _site/style.css
 	@mkdir -p _site
 	$(PANDOC) \
 	    --standalone \
 	    --lua-filter=.tools/docs.lua \
-		--metadata sample-file=test/input.md \
+		--metadata sample-file=input.md \
 		--metadata result-file=_site/output.$(WEBSITE_OUTPUT_EXT) \
 		--metadata code-file=$(FILTER_FILE) \
 	    --css=style.css \
@@ -103,10 +140,11 @@ _site/style.css:
 	    --output $@ \
 	    'https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/light.css'
 
-_site/output.$(WEBSITE_OUTPUT_EXT): $(FILTER_FILE) test/input.md test/test.yaml
+_site/output.$(WEBSITE_OUTPUT_EXT): $(FILTER_FILE) input.md test/test.yaml
 	@mkdir -p _site
 	$(PANDOC) \
 	    --defaults=test/test.yaml \
+		input.md \
 	    --to=$(WEBSITE_OUTPUT_EXT) \
 	    --output=$@
 

@@ -1,14 +1,18 @@
 ---
 title: "First-line Indent"
 author: Julien Dutant
-date: 22 Dec 2022
-filter:
+date: 15 Mar 2023
+## Activates the first-line-indent style
+indent: true
+## Quarto only (Pandoc gets this from defaults or command line args)
+filters:
 - first-line-indent
 # Filter options. You do not need to specify any,
 # remove all the lines below the filter still 
 # separates paragraphs with indentation rather
 # than vertical whitespace.
 first-line-indent:
+  indent: true
   set-metadata-variable: true
   set-header-includes: true
   auto-remove: true

@@ -1,6 +1,6 @@
 /_site/
+/.quarto/
+/test/input_files/
 *.pdf
 .vscode
-
-
 /.luarc.json
