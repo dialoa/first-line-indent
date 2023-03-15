@@ -104,14 +104,15 @@ local LATEX_QUOTE_ENV = [[\makeatletter
 ---@class HeaderIncludes map of functions to produce
 ---header-includes code given a size parameter (string|nil),
 --- either for global or for local indentation markup.
---- global = {html : function, latex: function}
---- local = {html : function, latex: function}
+--- optionally wrap the constructed global header markup (e.g. <style> tags).
+--- glob = {html : function, latex: function}
+--- wrap = {html : function, latex: function}
+--- loc = {html : function, latex: function}
 HeaderIncludes = {
   glob = {
     html = function(size)
       size = size or Options.size_default
-      local code = [[/* First-line Indent filter styles */
-  p {
+      local code = [[  p {
     text-indent: SIZE;
     margin: 0;
   }
@@ -126,7 +127,6 @@ HeaderIncludes = {
     text-indent: 0;
     margin-bottom: 1rem;
   }
-  /* end of First-line Indent filter styles */
 ]]
       return code:gsub("SIZE", size)
     end,
@@ -136,22 +136,26 @@ HeaderIncludes = {
       return LATEX_QUOTE_ENV .. size_code
     end,
   },
+  wrap = {
+    html = function(header_str)
+      return "<style>\n/* first-line indent styles */\n" .. header_str
+        .. "/* end of first-line indent styles */\n</style>"
+    end,
+    latex = function(str) return str end,
+  },
   loc = {
     html = function(size)
       size = size or Options.size_default
-      local code = [[
-        div.no-first-line-indent-after + p {
-          text-indent: 0;
-        }
-        div.first-line-indent-after + p {
-          text-indent: SIZE;
-        }
-      ]]
+      local code = [[  div.no-first-line-indent-after + p {
+    text-indent: 0;
+  }
+  div.first-line-indent-after + p {
+    text-indent: SIZE;
+  }
+]]
       return code:gsub("SIZE", size)
     end,
-    latex = function(size)
-      return ''
-    end,
+    latex = function(_) return '' end,
   }
 }
 
@@ -169,6 +173,46 @@ local function format_match(pattern)
     or FORMAT:match(pattern)
 end
 
+---add_header_includes: add a block to the document's header-includes
+---meta-data field.
+---@param meta pandoc.Meta the document's metadata block
+---@param blocks pandoc.Blocks list of Pandoc block elements (e.g. RawBlock or Para)
+---   to be added to the header-includes of meta
+---@return pandoc.Meta meta the modified metadata block
+local function add_header_includes(meta, blocks)
+
+  -- Pandoc
+  local function pandoc_add_headinc(meta,blocks)
+
+    local header_includes = pandoc.MetaList( { pandoc.MetaBlocks(blocks) })
+
+    -- add any exisiting meta['header-includes']
+    -- it can be MetaInlines, MetaBlocks or MetaList
+    if meta['header-includes'] then
+      if pandoctype(meta['header-includes']) == 'List' then
+        header_includes:extend(meta['header-includes'])
+      else
+        header_includes:insert(meta['header-includes'])
+      end
+    end
+
+    meta['header-includes'] = header_includes
+
+    return meta
+
+  end
+
+  -- Quarto
+  local function quarto_add_headinc(blocks)
+    quarto.doc.include_text('in-header', stringify(blocks))
+  end
+
+  return quarto and quarto_add_headinc(blocks)
+    or pandoc_add_headinc(meta,blocks)
+
+end
+
+
 -- # Helper functions
 
 -- ensure_list: turns Inlines and Blocks meta values into list
@@ -180,31 +224,6 @@ local function ensure_list(elem)
   return elem
 end
 
----add_header_includes: add a block to the document's header-includes
----meta-data field.
----@param meta pandoc.Meta the document's metadata block
----@param blocks pandoc.Blocks list of Pandoc block elements (e.g. RawBlock or Para)
----   to be added to the header-includes of meta
----@return pandoc.Meta meta the modified metadata block
-local function add_header_includes(meta, blocks)
-
-  local header_includes = pandoc.MetaList( { pandoc.MetaBlocks(blocks) })
-
-  -- add any exisiting meta['header-includes']
-  -- it can be MetaInlines, MetaBlocks or MetaList
-  if meta['header-includes'] then
-    if pandoctype(meta['header-includes']) == 'List' then
-      header_includes:extend(meta['header-includes'])
-    else
-      header_includes:insert(meta['header-includes'])
-    end
-  end
-
-  meta['header-includes'] = header_includes
-
-  return meta
-
-end
 
 --- classes_include: check if one of an element's class is in a given
 -- list. Returns true if match, nil if no match or the element doesn't
@@ -525,12 +544,9 @@ local function set_meta(meta)
     end
     -- provide local explicit indentation styles
     header_code = header_code .. HeaderIncludes.loc[format](Options.size)
-
-    -- HTML header code must be wrapped in a `<style>` tag
-    if header_code ~= '' and format == 'html' then
-      header_code = '<style>\n'..header_code..'</style>\n'
-    end
-
+    -- wrap the header if needed
+    header_code = HeaderIncludes.wrap[format](header_code)
+    
     -- insert if not empty
     if header_code ~= '' then
       add_header_includes(meta, { pandoc.RawBlock(format, header_code)})
