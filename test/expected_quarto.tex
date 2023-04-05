@@ -9,7 +9,6 @@
   numbers=noendperiod]{scrartcl}
 
 \usepackage{amsmath,amssymb}
-\usepackage{lmodern}
 \usepackage{iftex}
 \ifPDFTeX
   \usepackage[T1]{fontenc}
@@ -19,6 +18,10 @@
   \usepackage{unicode-math}
   \defaultfontfeatures{Scale=MatchLowercase}
   \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else  
+    % xetex/luatex font selection
 \fi
 % Use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
@@ -160,10 +163,12 @@
 \@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
 \makeatother
 \makeatletter
-\@ifpackageloaded{tcolorbox}{}{\usepackage[many]{tcolorbox}}
+\@ifpackageloaded{tcolorbox}{}{\usepackage[skins,breakable]{tcolorbox}}
 \makeatother
 \makeatletter
 \@ifundefined{shadecolor}{\definecolor{shadecolor}{rgb}{.97, .97, .97}}
+\makeatother
+\makeatletter
 \makeatother
 \makeatletter
 \makeatother
@@ -186,11 +191,11 @@
 
 \title{First-line Indent}
 \author{Julien Dutant}
-\date{3/15/23}
+\date{2023-03-15}
 
 \begin{document}
 \maketitle
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[interior hidden, sharp corners, frame hidden, borderline west={3pt}{0pt}{shadecolor}, enhanced, boxrule=0pt, breakable]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[enhanced, interior hidden, breakable, frame hidden, sharp corners, borderline west={3pt}{0pt}{shadecolor}, boxrule=0pt]}{\end{tcolorbox}}\fi
 
 \noindent This document illustrates first-line indent typesetting. In
 English typography, paragraphs just below a section heading aren't
@@ -258,7 +263,7 @@ We can also check that indent is removed after lists:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{local}\NormalTok{ variable }\OperatorTok{=} \StringTok{"value"}
+\KeywordTok{local} \VariableTok{variable} \OperatorTok{=} \StringTok{"value"}
 \end{Highlighting}
 \end{Shaded}
 
@@ -316,18 +321,19 @@ We also added an option to automatically remove indent after tables:
 
 \begin{longtable}[]{@{}rlcl@{}}
 \caption{Demonstration of simple table syntax.}\tabularnewline
-\toprule()
+\toprule\noalign{}
 Right & Left & Center & Default \\
-\midrule()
+\midrule\noalign{}
 \endfirsthead
-\toprule()
+\toprule\noalign{}
 Right & Left & Center & Default \\
-\midrule()
+\midrule\noalign{}
 \endhead
+\bottomrule\noalign{}
+\endlastfoot
 12 & 12 & 12 & 12 \\
 123 & 123 & 123 & 123 \\
 1 & 1 & 1 & 1 \\
-\bottomrule()
 \end{longtable}
 
 \noindent So this paragraph's first line is not indented. We added the
