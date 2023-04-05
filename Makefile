@@ -143,7 +143,7 @@ _site/style.css:
 _site/output.$(WEBSITE_OUTPUT_EXT): $(FILTER_FILE) input.md test/test.yaml
 	@mkdir -p _site
 	$(PANDOC) \
-	    --defaults=test/test.yaml \
+	    --defaults=test/site.yaml \
 		input.md \
 	    --to=$(WEBSITE_OUTPUT_EXT) \
 	    --output=$@
