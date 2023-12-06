@@ -3,7 +3,7 @@ First-line Indent
 
 [![GitHub build status][CI badge]][CI workflow]
 
-[Quarto][Q-guide]/[Pandoc][PDMan] filter for smart first-line indents in HTML and LaTeX/PDF.
+[Pandoc][PDMan]/[Quarto][Q-guide] filter for smart first-line indents in HTML and LaTeX/PDF.
 
 [See on GitHub](https://github.com/dialoa/first-line-indent/)
 
