@@ -26,36 +26,38 @@ Overview
 
 Quarto/Pandoc's support of first-line indents is limited: it's not
 available in HTML output and delegated to LaTeX PDF output. This
-filter provides a first-line indentation style with smart defaults,
-full customization, and manual control for fine-grain adjustments.
+filter provides a first-line indentation style with smart
+defaults, full customization, and manual control for fine-grain
+adjustments.
 
 Background
 ----------
 
-Paragraphs are typically separated in either of two ways: by vertical
-whitespace (common on the web) or by indenting their first line (common
-in books). There is some variation in the first-line indent style
-itself: some apply it to every paragraph, others don't apply it 
-to paragraphs below a section heading, blockquote or the like.
-They also vary in size, the most common being between half an
-em (the width of the letter 'm') for narrow text to
-3 ems for wide text. 1 to 1.5em are probably the most standard
-values. 
+Paragraphs are typically separated in either of two ways: by
+vertical whitespace (common on the web) or by indenting their
+first line (common in books). There is some variation in the
+first-line indent style itself: some apply it to every paragraph,
+others don't apply it to paragraphs below a section heading,
+blockquote or the like. They also vary in size, the most common
+being between half an em (the width of the letter 'm') for narrow
+text to 3 ems for wide text. 1 to 1.5em are probably the most
+standard values. 
 
-Quarto and Pandoc use vertical whitespace by default. In HTML 
-outputs that cannot be changed. In LaTeX/PDF output one can
-switch to first-line indent by setting the metadata variable
-`indent` to `true`. There are some limitations, however:
+Quarto and Pandoc use vertical whitespace by default. In HTML
+outputs that cannot be changed. In LaTeX/PDF output one can switch
+to first-line indent by setting the metadata variable `indent` to
+`true`. There are some limitations, however:
 
 * standard English style is applied: no first-line indents after
   headings.
 * But first-line indents are applied below titles. This LaTeX
   default isn't good typography: the first paragraph doesn't
   need a separation.  
-* Every line following a blockquote, list, code block or other block
-  element is treated as a new paragraph, hence indented. This is
-  most often (but not always) unwanted, as the text following a
-  blockquote or list is usually a continuation of the same paragraph.
+* Every line following a blockquote, list, code block or other
+  block element is treated as a new paragraph, hence indented.
+  This is most often (but not always) unwanted, as the text
+  following a blockquote or list is usually a continuation of the
+  same paragraph.
 * The size of first-line indent is determined by the underlying
   LaTeX document "class" used. The standard classes (`article`,
   `book`) and Memoir (`memoir`) use 1.5\ em, the KOMA classes 
@@ -71,17 +73,17 @@ improves its handling in both PDF and HTML outputs.
    `indent` is set to `false`. 
 2) It generates HTML outputs with first-line indent style. That is
   done by appending CSS code in the document's metadata
-  `header-includes` field. This can be disabled if you want to provide
-  your own CSS.
-1) You can keep or remove the indent of specific paragraphs manually,
-   by adding `\indent` and `\noindent` at the beginning of the
-   paragraph in the markdown source. These are LaTeX commands but will
-   work with HTML output too.
-2) First-line indentation is not applied certain block elements: by
-   default, not after lists, block quotes, code blocks and horizontal
-   rules. You can specify which through the filter's options. This can
-   be overridden on a per-paragraph basis by inserting `\indent` at
-   the beginning of the paragraph. 
+  `header-includes` field. This can be disabled if you want to
+  provide your own CSS.
+1) You can keep or remove the indent of specific paragraphs
+   manually, by adding `\indent` and `\noindent` at the beginning
+   of the paragraph in the markdown source. These are LaTeX
+   commands but will work with HTML output too.
+2) First-line indentation is not applied certain block elements:
+   by default, not after lists, block quotes, code blocks and
+   horizontal rules. You can specify which through the filter's
+   options. This can be overridden on a per-paragraph basis by
+   inserting `\indent` at the beginning of the paragraph. 
 3) The width of first-line indentations can be customized.
 
 Installation
@@ -109,8 +111,8 @@ filters:
 
 ### Pandoc
 
-Copy the file `first-line-indent.lua` in your document folder. Pass 
-the filter to Pandoc via the `--lua-filter` (or `-L`) command
+Copy the file `first-line-indent.lua` in your document folder.
+Pass the filter to Pandoc via the `--lua-filter` (or `-L`) command
 line option.
 
 ``` bash
@@ -121,8 +123,8 @@ Or specify it in a defaults file (see [Pandoc's manual:
 defaults][PDMan-defaults]).
 
 You can place the filter file Pandoc's user data dir, or in an
-arbitrary folder (`-L path/to/first-line-indent.lua`). See [Pandoc's
-manual:Lua filters][PDMan-filters]. 
+arbitrary folder (`-L path/to/first-line-indent.lua`). See
+[Pandoc's manual:Lua filters][PDMan-filters]. 
 
 ### R Markdown
 
@@ -138,8 +140,8 @@ output:
 ---
 ```
 
-You can place the filter in another folder, provided you specify its
-path:
+You can place the filter in another folder, provided you specify
+its path:
 
 ``` yaml
 ---
@@ -157,8 +159,8 @@ and the resulting [HTML output](https://dialoa.github.io/first-line-indent/#outp
 
 ### Applying first-line indent to a whole document
 
-To apply first-line indentation to your entire document, set `indent`
-to `true` in the YAML header:
+To apply first-line indentation to your entire document, set
+`indent` to `true` in the YAML header:
 
 ```yaml
 ---
@@ -178,18 +180,18 @@ format:
 ---
 ```
 
-The filter applies some typesetting adjustments, e.g. no first-line
-indentation after lists. See [typesetting-background] below for
-details. If you're not happy with the adjustments, you can control
-them via options and manually apply or remove indents from some
-paragraphs.
+The filter applies some typesetting adjustments, e.g. no
+first-line indentation after lists. See [typesetting-background]
+below for details. If you're not happy with the adjustments, you
+can control them via options and manually apply or remove indents
+from some paragraphs.
 
 ### Manually add or remove first-line indent on a paragraph
 
 Whether or not first-line indentation is activated for the whole
 document, you can manually add or remove it from a particular
-paragraph by inserting `\indent` or `\noindent` at the beginning of
-the paragraph:
+paragraph by inserting `\indent` or `\noindent` at the beginning
+of the paragraph:
 
 ```markdown
 > This is a blockquote
@@ -198,8 +200,8 @@ the paragraph:
 blockquote.
 ```
 
-Even though `\indent` and `\noindent` are LaTeX commands, the filter
-handles them in HTML output too.
+Even though `\indent` and `\noindent` are LaTeX commands, the
+filter handles them in HTML output too.
 
 __Warning: citations after `\indent`__. If the paragraph starts
 with a square-bracketed citation, `\indent` or `\noindent` must
@@ -240,8 +242,9 @@ first-line-indent:
   dont-remove-after-class: 
 ```
 
-Different options can be provided for different output formats. This
-is standard with Quarto, but the filter also reads these with Pandoc:
+Different options can be provided for different output formats.
+This is standard with Quarto, but the filter also reads these with
+Pandoc:
 
 ```yaml
 format:
@@ -255,8 +258,8 @@ format:
       size: 1.5em
 ```
 
-Format-specific options override global ones. For instance, to disable
-first line indentation in HTML output only:
+Format-specific options override global ones. For instance, to
+disable first line indentation in HTML output only:
 
 ```yaml
 # Format-specific options
@@ -271,18 +274,19 @@ first-line-indent:
   size: 2em
 ```
 
-Options can be passed in a separate metadata file 
-([Quarto][Q-metadata-file], [Pandoc]([PDMan-metadata-files])
-or defaults ([Pandoc only][PDMan-defaults]). 
+Options can be passed in a separate metadata file
+([Quarto][Q-metadata-file], [Pandoc]([PDMan-metadata-files]) or
+defaults ([Pandoc only][PDMan-defaults]). 
 
 ### Options reference
 
 `indent` (default `true`)
 
-: If set to `false`, paragraphs are separated with vertical whitespace
-  rather than first line indentation. This essentially deactivates the
-  filter, though `\indent` can still be used to add indent to
-  individual paragraphs for HTML output as well as PDF.
+: If set to `false`, paragraphs are separated with vertical
+  whitespace rather than first line indentation. This essentially
+  deactivates the filter, though `\indent` can still be used to
+  add indent to individual paragraphs for HTML output as well as
+  PDF.
 
 `size` (default `nil`)
 
@@ -302,6 +306,8 @@ or defaults ([Pandoc only][PDMan-defaults]).
   indentation is removed after Blockquote, lists (DefinitionList,
   BulletList, OrderedList, which include numbered example lists) and
   HorizontalRule blocks.
+
+: It is not removed after DisplayMath elements. 
 
 `set-metadata-variable` (default: `true`): 
 
@@ -326,6 +332,10 @@ or defaults ([Pandoc only][PDMan-defaults]).
   BlockQuote, BulletList, CodeBlock, DefinitionList, Div, Header,
   HorizontalRule, LineBlock, Null, OrderedList, Para, Plain, RawBlock,
   Table. Inactive if `auto-remove` is false.
+
+: Note that DisplayMath (displayed equations) isn't included: as
+  these are not block elements within Pandoc/Quarto, the filter
+  cannot currently target them.
 
 `remove-after-class`, `dont-remove-after-class`
 

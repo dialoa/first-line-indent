@@ -46,6 +46,8 @@ have a first-line indent. We have to manually specify using `\indent`.
 After a heading (in English typographic style) the paragraph does not
 have a first-line indent.
 
+The second paragraph, however, should be intended.
+
 ## Manually specifying indentation on certain paragraphs
 
 In the couple of paragraphs that follow the quotes below, we
@@ -75,7 +77,13 @@ Or horizontal rules.
 
 ---
 
-We check that this behavour is overriden for specified classes. We
+It is not automatically removed after display equations:
+
+$$E = mc^2$$
+
+because display equations aren't block elements. 
+
+We check that this behavior is overridden for specified classes. We
 created a custom class to preserve indentation after certain elements:
 
 ``` {.markdown .keepit}

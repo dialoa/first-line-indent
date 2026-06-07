@@ -4,3 +4,5 @@
 *.pdf
 .vscode
 /.luarc.json
+
+**/*.quarto_ipynb
