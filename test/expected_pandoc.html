@@ -24,6 +24,7 @@ first-line indent. We have to manually specify using
 <h1 id="basic-tests">Basic tests</h1>
 <p>After a heading (in English typographic style) the paragraph does not
 have a first-line indent.</p>
+<p>The second paragraph, however, should be intended.</p>
 <h2 id="manually-specifying-indentation-on-certain-paragraphs">Manually
 specifying indentation on certain paragraphs</h2>
 <p>In the couple of paragraphs that follow the quotes below, we have
@@ -53,7 +54,11 @@ class="sourceCode lua"><code class="sourceCode lua"><span id="cb1-1"><a href="#c
 <p>Or horizontal rules.</p>
 <hr />
 <div class="no-first-line-indent-after"></div>
-<p>We check that this behavour is overriden for specified classes. We
+<p>It is not automatically removed after display equations:</p>
+<p><span
+class="math display"><em>E</em> = <em>m</em><em>c</em><sup>2</sup></span></p>
+<p>because display equations aren’t block elements.</p>
+<p>We check that this behavior is overridden for specified classes. We
 created a custom class to preserve indentation after certain
 elements:</p>
 <div class="sourceCode" id="cb2"><pre
@@ -88,7 +93,7 @@ tables:</p>
 <table>
 <caption>Demonstration of simple table syntax.</caption>
 <thead>
-<tr class="header">
+<tr>
 <th style="text-align: right;">Right</th>
 <th style="text-align: left;">Left</th>
 <th style="text-align: center;">Center</th>
@@ -96,19 +101,19 @@ tables:</p>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td style="text-align: right;">12</td>
 <td style="text-align: left;">12</td>
 <td style="text-align: center;">12</td>
 <td>12</td>
 </tr>
-<tr class="even">
+<tr>
 <td style="text-align: right;">123</td>
 <td style="text-align: left;">123</td>
 <td style="text-align: center;">123</td>
 <td>123</td>
 </tr>
-<tr class="odd">
+<tr>
 <td style="text-align: right;">1</td>
 <td style="text-align: left;">1</td>
 <td style="text-align: center;">1</td>
